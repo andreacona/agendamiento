@@ -1,0 +1,31 @@
+.mat-toolbar{
+ background:#3D3D3D; 
+ width: 100%; 
+ height: 65px; 
+}
+
+.mat-button{
+    color:#F4C004;
+    font-size: 16px;
+    font-family:'helvetica' ;
+    padding-right: 54px;
+   }
+
+   .logo {
+    display: flex;
+    margin-top:15px;
+    margin-left: 105px;
+    margin-right: 105px;
+    .image {
+      img {
+       width: 122px;
+       height: 36px;
+      }
+  }  
+}  
+
+.mat-toolbar-row {
+display: flex;
+
+}
+
