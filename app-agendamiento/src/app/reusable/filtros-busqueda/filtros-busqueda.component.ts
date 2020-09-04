@@ -14,10 +14,13 @@ export interface Tile {
 })
 export class FiltrosBusquedaComponent implements OnInit {
 
+  alimentos: any[] = [{
+    valor: 1,
+    viewValue: 'arroz'
+  }];
   constructor() { }
 
   ngOnInit(): void {
   }
 
 }
-
