@@ -14,9 +14,14 @@ export interface Tile {
 })
 export class FiltrosBusquedaComponent implements OnInit {
 
-  alimentos: any[] = [{
-    valor: 1,
-    viewValue: 'arroz'
+  especialistas: any[] = [{
+    valor: 4,
+    viewValue: ['Valentina Escobar']
+  }];
+
+  servicios: any[] = [{
+    valor: 4,
+    viewValue: ['kinesiología']
   }];
   constructor() { }
 

@@ -4,36 +4,41 @@
           <div class="box">
               <h2>Buscar por:</h2>
               <mat-button-toggle-group  name = "fontStyle"  aria-label = "Font Style">
-                  <mat-button-toggle  value = "underline"> Nombre </mat-button-toggle>
+                  <mat-button-toggle   value = "underline"> Nombre </mat-button-toggle>
                   <mat-button-toggle  value = "underline"> Especialidad </mat-button-toggle>
               </mat-button-toggle-group>
 
               <h4> Nombre Especialista </h4>
               <mat-form-field  attendant = "fill">
-                  <mat-label> Selecciona </mat-label>
+                <mat-label> Selecciona </mat-label>
                   <mat-select>
-                    <mat-option *ngFor = "let food of alimentos " [value] = " food.valor ">
-                      {{food.viewValue}}
+                    <mat-option *ngFor = "let especialistas of especialistas " [value] = " especialistas.valor ">
+                      {{especialistas.viewValue}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
 
-                <h4> Servicio Asociado </h4>
-                <mat-form-field  attendant = "fill">
-                    <mat-label> Selecciona </mat-label>
-                    <mat-select>
-                      <mat-option *ngFor = "let alimento of alimentos " [value] = " alimento.valor ">
-                        {{alimento.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                  </mat-form-field>
 
+              <h4>Servicio Asociado</h4>
+              <mat-form-field appearance="fill">
+                <mat-label>Selecciona</mat-label>
+                  <select matNativeControl required>
+                    <option value="Kinesiologia">Kinesiologia</option>
+                    <option value="Fonoaudiologia">Fonoaudiología</option>
+                    <option value="Psicología">Psicología</option>
+                    <option value="Medicina-General">Medicina General</option>
+                  </select>
+                </mat-form-field>
+                  
+                  <h4> Calendario </h4>
                   <mat-form-field color="accent" appearance="fill">
-                      <mat-label>Inherited calendar color</mat-label>
+                      <mat-label>Seleccionar fecha </mat-label>
                       <input matInput [matDatepicker]="picker1">
                       <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                       <mat-datepicker #picker1></mat-datepicker>
                     </mat-form-field>
+
+
 
           </div>
 
