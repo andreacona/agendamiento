@@ -1,44 +1,70 @@
 <div class="container">
   <div class="row start-md">
-      <div class="col-md-6">
-          <div class="box">
-              <h2>Buscar por:</h2>
-              <mat-button-toggle-group  name = "fontStyle"  aria-label = "Font Style">
-                  <mat-button-toggle  value = "underline"> Nombre </mat-button-toggle>
-                  <mat-button-toggle  value = "underline"> Especialidad </mat-button-toggle>
-              </mat-button-toggle-group>
+    <div class="col-md-6">
+      <div class="box">
+        <h2>Buscar por:</h2>
+        <mat-button-toggle-group
+          #grupo="matButtonToggleGroup"
+          name="filtroBusqueda"
+          aria-label="Filtro Busqueda"
+        >
+          <mat-button-toggle
+            (change)="changeValueButton($event.value)"
+            value="filtroNombre"
+          >
+            Nombre
+          </mat-button-toggle>
+          <mat-button-toggle
+            (change)="changeValueButton($event.value)"
+            value="filtroEspecialidad"
+          >
+            Especialidad
+          </mat-button-toggle>
+        </mat-button-toggle-group>
 
-              <h4> Nombre Especialista </h4>
-              <mat-form-field  attendant = "fill">
-                  <mat-label> Selecciona </mat-label>
-                  <mat-select>
-                    <mat-option *ngFor = "let nombreEspecialista of nombreEspecialista " [value] = " nombreEspecialista ">
-                      {{nombreEspecialista.viewValue}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-
-              <h4>Especialidad</h4>
-              <mat-form-field appearance="fill">
-                <mat-label>selecciona</mat-label> 
-                  <mat-select>
-                   <mat-option *ngFor="let food of foods" [value]="food.value">
-                     {{food.viewValue}}
-                    </mat-option>
-                  </mat-select>
-              </mat-form-field>
-
-
-              <h4>Elegir fecha</h4>
-                <mat-form-field color="accent" appearance="fill">
-                  <mat-label>Inherited calendar color</mat-label>
-                    <input matInput [matDatepicker]="picker1">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                      <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-
+        <form>
+          <div *ngIf="valueButton == 'filtroNombre'">
+            <h4>Nombre Especialista</h4>
+            <mat-form-field appearance="outline">
+              <mat-label> Selecciona </mat-label>
+              <mat-select>
+                <mat-option
+                  *ngFor="let especialista of especialistas"
+                  [value]="especialista.valor"
+                >
+                  {{ especialista.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
+          <div *ngIf="valueButton == 'filtroEspecialidad'">
+            <h4>Especialidad</h4>
+            <mat-form-field appearance="outline">
+              <mat-label> Selecciona </mat-label>
+              <mat-select>
+                <mat-option
+                  *ngFor="let especialista of especialistas"
+                  [value]="especialista.valor"
+                >
+                  {{ especialista.profesion }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <h4>Elegir fecha</h4>
+          <mat-form-field color="accent" appearance="fill">
+            <mat-label>Inherited calendar color</mat-label>
+            <input matInput [matDatepicker]="picker1" />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </form>
       </div>
+    </div>
   </div>
+</div>

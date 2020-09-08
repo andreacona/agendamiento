@@ -1,51 +1,58 @@
 import { Component, OnInit } from '@angular/core';
 
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
-
 @Component({
   selector: 'app-filtros-busqueda',
   templateUrl: './filtros-busqueda.component.html',
-  styleUrls: ['./filtros-busqueda.component.scss']
+  styleUrls: ['./filtros-busqueda.component.scss'],
 })
 export class FiltrosBusquedaComponent implements OnInit {
+  especialistas: any[] = [
+    {
+      valor: 1,
+      nombre: 'Claudia Contreras Ortega',
+      profesion: 'Obstetricia',
+    },
+    {
+      valor: 2,
+      nombre: 'Constanza Domingues Pino',
+      profesion: 'Nutricion',
+    },
+    {
+      valor: 3,
+      nombre: 'Freddy Torres Jimenez',
+      profesion: 'Medicina General',
+    },
+    {
+      valor: 4,
+      nombre: 'Giselle Gacitua Canales',
+      profesion: 'Fonoaudiologia',
+    },
+    {
+      valor: 5,
+      nombre: 'Jael Vera Mora',
+      profesion: 'Terapia Ocupacional',
+    },
+    {
+      valor: 6,
+      nombre: 'Saray Salinas Sepulveda',
+      profesion: 'Psicología integral',
+    },
+    {
+      valor: 7,
+      nombre: 'Yolanda Sepulveda Cortez',
+      profesion: 'kinesiologia',
+    },
+  ];
 
-  nombreEspecialista: any[] = [{
-    valor: 1,
-    viewValue: 'Claudia Contreras Ortega'
-  },
-  {
-    valor: 2,
-    viewValue: 'Constanza Domingues Pino'
-  },
-  {
-    valor: 3,
-    viewValue: 'Freddy Torres Jimenez'
-  },
-  {
-    valor: 4,
-    viewValue: 'Giselle Gacitua Canales'
-  },
-  {
-    valor: 5,
-    viewValue: 'Jael Vera Mora'
-  },
-  {
-    valor: 6,
-    viewValue: 'Saray Salinas Sepulveda'
-  },
-  {
-    valor: 7,
-    viewValue: 'Yolanda Sepulveda Cortez',
-  },
-];
-  constructor() { }
+  valueButton = 'filtroNombre';
 
-  ngOnInit(): void {
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  changeValueButton(value: string) {
+    this.valueButton = value;
+    console.log(this.valueButton);
+    console.log(value);
   }
-
 }
