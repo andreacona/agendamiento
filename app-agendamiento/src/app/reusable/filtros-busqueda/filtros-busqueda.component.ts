@@ -14,15 +14,35 @@ export interface Tile {
 })
 export class FiltrosBusquedaComponent implements OnInit {
 
-  especialistas: any[] = [{
+  nombreEspecialista: any[] = [{
+    valor: 1,
+    viewValue: 'Claudia Contreras Ortega'
+  },
+  {
+    valor: 2,
+    viewValue: 'Constanza Domingues Pino'
+  },
+  {
+    valor: 3,
+    viewValue: 'Freddy Torres Jimenez'
+  },
+  {
     valor: 4,
-    viewValue: ['Valentina Escobar']
-  }];
-
-  servicios: any[] = [{
-    valor: 4,
-    viewValue: ['kinesiología']
-  }];
+    viewValue: 'Giselle Gacitua Canales'
+  },
+  {
+    valor: 5,
+    viewValue: 'Jael Vera Mora'
+  },
+  {
+    valor: 6,
+    viewValue: 'Saray Salinas Sepulveda'
+  },
+  {
+    valor: 7,
+    viewValue: 'Yolanda Sepulveda Cortez',
+  },
+];
   constructor() { }
 
   ngOnInit(): void {
