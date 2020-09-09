@@ -8,43 +8,63 @@ import { Component, OnInit } from '@angular/core';
 export class FiltrosBusquedaComponent implements OnInit {
   especialistas: any[] = [
     {
-      valor: 1,
+      id: 1,
       nombre: 'Claudia Contreras Ortega',
-      profesion: 'Obstetricia',
+      profesion: [{ nombre: 'Obstetricia', id: 1 }],
     },
     {
-      valor: 2,
+      id: 2,
       nombre: 'Constanza Domingues Pino',
-      profesion: 'Nutricion',
+      profesion: [{ nombre: 'Nutricion', id: 2 }],
     },
     {
-      valor: 3,
+      id: 3,
       nombre: 'Freddy Torres Jimenez',
-      profesion: 'Medicina General',
+      profesion: [{ nombre: 'Medicina General', id: 3 }],
     },
     {
-      valor: 4,
+      id: 4,
       nombre: 'Giselle Gacitua Canales',
-      profesion: 'Fonoaudiologia',
+      profesion: [{ nombre: 'Fonoaudiologia', id: 4 }],
     },
     {
-      valor: 5,
+      id: 5,
       nombre: 'Jael Vera Mora',
-      profesion: 'Terapia Ocupacional',
+      profesion: [{ nombre: 'Terapia Ocupacional', id: 5 }],
     },
     {
-      valor: 6,
+      id: 6,
       nombre: 'Saray Salinas Sepulveda',
-      profesion: 'Psicología integral',
+      profesion: [{ nombre: 'Psicología integral', id: 6 }],
     },
     {
-      valor: 7,
+      id: 7,
       nombre: 'Yolanda Sepulveda Cortez',
-      profesion: 'kinesiologia',
+      profesion: [{ nombre: 'kinesiologia', id: 7 }],
+    },
+  ];
+
+  box: any[] = [
+    {
+      nombre: 'box 1',
+    },
+    {
+      nombre: 'box 2',
+    },
+    {
+      nombre: 'box 3',
+    },
+    {
+      nombre: 'box 4',
+    },
+    {
+      nombre: 'box 5',
     },
   ];
 
   valueButton = 'filtroNombre';
+  valueProfesion = 'especialista.id';
+  professions = [];
 
   constructor() {}
 
@@ -52,7 +72,10 @@ export class FiltrosBusquedaComponent implements OnInit {
 
   changeValueButton(value: string) {
     this.valueButton = value;
-    console.log(this.valueButton);
-    console.log(value);
+  }
+
+  changeValueProfesion(value: number) {
+    this.professions = this.especialistas[value].profesion;
+    console.log(this.professions);
   }
 }

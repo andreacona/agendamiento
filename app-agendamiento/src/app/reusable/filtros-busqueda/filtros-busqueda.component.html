@@ -26,16 +26,39 @@
           <div *ngIf="valueButton == 'filtroNombre'">
             <h4>Nombre Especialista</h4>
             <mat-form-field appearance="outline">
-              <mat-label> Selecciona </mat-label>
-              <mat-select>
+              <mat-label> Seleccionar </mat-label>
+              <mat-select
+                (selectionChange)="changeValueProfesion($event.selectedIndex)"
+              >
                 <mat-option
                   *ngFor="let especialista of especialistas"
-                  [value]="especialista.valor"
+                  [value]="especialista.id"
                 >
                   {{ especialista.nombre }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <div>
+              <h4>Especialidad</h4>
+              <mat-form-field appearance="outline">
+                <mat-select>
+                  <mat-option *ngFor="let profesion of professions">{{
+                    profesion.nombre
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div>
+              <h4>Box</h4>
+              <mat-form-field appearance="outline">
+                <mat-label>Selccionar Box</mat-label>
+                <mat-select>
+                  <mat-option *ngFor="let box of box" [value]="box.nombre">
+                    {{ box.nombre }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
           </div>
 
           <div *ngIf="valueButton == 'filtroEspecialidad'">
@@ -51,6 +74,14 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <section class="convenios">
+              <h4>Convenio</h4>
+              <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
+              <br />
+              <mat-checkbox class="convenios-margin">Isapre</mat-checkbox>
+              <br />
+              <mat-checkbox class="convenios-margin">Particular</mat-checkbox>
+            </section>
           </div>
 
           <h4>Elegir fecha</h4>
