@@ -40,10 +40,15 @@ mat-form-field {
 }
 
 .convenios-margin {
-  margin: 0 12px;
+  margin: 0 11px;
 }
 
 mat-checkbox {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 20px;
+}
+
+.mat-checkbox-background {
+  background-color: #f4c004;
+  color: #f4c004;
 }

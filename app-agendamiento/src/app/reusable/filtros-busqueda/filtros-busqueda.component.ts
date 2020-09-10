@@ -40,7 +40,7 @@ export class FiltrosBusquedaComponent implements OnInit {
     {
       id: 7,
       nombre: 'Yolanda Sepulveda Cortez',
-      profesion: [{ nombre: 'kinesiologia', id: 7 }],
+      profesion: [{ tipoProfesion: 'kinesiologia', id: 7 }],
     },
   ];
 
