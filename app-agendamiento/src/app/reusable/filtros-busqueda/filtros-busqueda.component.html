@@ -23,58 +23,67 @@
         </mat-button-toggle-group>
 
         <form>
-          <div *ngIf="valueButton == 'filtroNombre'">
-            <h4>Nombre Especialista</h4>
-            <mat-form-field appearance="outline">
-              <mat-label> Seleccionar especialista </mat-label>
-              <mat-select
-                (selectionChange)="changeValueProfesion($event.selectedIndex)"
-              >
-                <mat-option
-                  *ngFor="let especialista of especialistas"
-                  [value]="especialista.id"
+          <div>
+            <div *ngIf="valueButton == 'filtroNombre'">
+              <h4>Nombre Especialista</h4>
+              <mat-form-field appearance="outline">
+                <mat-label> Seleccionar especialista </mat-label>
+                <mat-select
+                  (selectionChange)="changeValueProfesion($event.selectedIndex)"
                 >
-                  {{ especialista.nombre }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div>
-              <h4>Especialidad</h4>
-              <mat-form-field appearance="outline">
-                <mat-select>
-                  <mat-option *ngFor="let profesion of professions">{{
-                    profesion.nombre
-                  }}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            <div>
-              <h4>Box</h4>
-              <mat-form-field appearance="outline">
-                <mat-label>Selccionar Box</mat-label>
-                <mat-select>
-                  <mat-option *ngFor="let box of box" [value]="box.nombre">
-                    {{ box.nombre }}
+                  <mat-option
+                    *ngFor="let especialista of especialistas"
+                    [value]="especialista.id"
+                  >
+                    {{ especialista.nombre }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+
+              <div>
+                <h4>Servicios:</h4>
+                <mat-form-field appearance="outline">
+                  <mat-select>
+                    <mat-option *ngFor="let profesion of professions">{{
+                      profesion.nombre
+                    }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div>
+                <h4>Elegir fecha</h4>
+                <mat-form-field
+                  color="$agendamiento-app-accent"
+                  appearance="outline"
+                >
+                  <mat-label>ver disponibilidad horaria</mat-label>
+                  <input matInput [matDatepicker]="picker1" />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker1"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
             </div>
           </div>
 
-          <div *ngIf="valueButton == 'filtroEspecialidad'">
-            <h4>Especialidad</h4>
-            <mat-form-field appearance="outline">
-              <mat-label> Seleccionar especialidad </mat-label>
-              <mat-select>
-                <mat-option
-                  *ngFor="let especialista of especialistas"
-                  [value]="especialista.valor"
-                >
-                  {{ especialista.profesion }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <section class="convenios">
+          <div>
+            <div *ngIf="valueButton == 'filtroEspecialidad'">
+              <h4>Especialidad</h4>
+              <mat-form-field appearance="outline">
+                <mat-label> Seleccionar especialidad </mat-label>
+                <mat-select>
+                  <mat-option
+                    *ngFor="let especialista of especialistas"
+                    [value]="especialista.valor"
+                  >
+                    {{ especialista.profesion }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
               <div>
                 <h4>Profesional</h4>
                 <mat-form-field appearance="outline">
@@ -85,36 +94,28 @@
                   </mat-select>
                 </mat-form-field>
               </div>
-              <h4>Convenio</h4>
-              <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
-              <br />
-              <mat-checkbox class="convenios-margin">Isapre</mat-checkbox>
-              <br />
-              <mat-checkbox class="convenios-margin">Particular</mat-checkbox>
+
               <div>
-                <h4>Box</h4>
-                <mat-form-field appearance="outline">
-                  <mat-label>Selccionar Box</mat-label>
-                  <mat-select>
-                    <mat-option *ngFor="let box of box" [value]="box.nombre">
-                      {{ box.nombre }}
-                    </mat-option>
-                  </mat-select>
+                <h4>Convenio</h4>
+                <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
+                <br />
+                <mat-checkbox class="convenios-margin">Particular</mat-checkbox>
+              </div>
+
+              <div>
+                <h4>Elegir fecha</h4>
+                <mat-form-field color="accent" appearance="outline">
+                  <mat-label>ver disponibilidad horaria</mat-label>
+                  <input matInput [matDatepicker]="picker1" />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker1"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
                 </mat-form-field>
               </div>
-            </section>
+            </div>
           </div>
-
-          <h4>Elegir fecha</h4>
-          <mat-form-field color="accent" appearance="fill">
-            <mat-label>Inherited calendar color</mat-label>
-            <input matInput [matDatepicker]="picker1" />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker1"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
         </form>
       </div>
     </div>

@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { ModalPopUpComponent } from '../reusable/modal-pop-up/modal-pop-up.component';
 
 import { HomeComponent } from './home/home.component';
 import { VistaDiariaComponent } from './vista-diaria/vista-diaria.component';
-import { VistaMensualComponent } from './vista-mensual/vista-mensual.component';
-import { VistaSemanalComponent } from './vista-semanal/vista-semanal.component';
 
+import { VistaSemanalComponent } from './vista-semanal/vista-semanal.component';
 
 const routes: Routes = [
   {
@@ -15,10 +15,6 @@ const routes: Routes = [
       {
         path: 'dia',
         component: VistaDiariaComponent,
-      },
-      {
-        path: 'mes',
-        component: VistaMensualComponent,
       },
       {
         path: 'semana',
@@ -34,6 +30,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CalendarRoutingModule { }
+export class CalendarRoutingModule {}

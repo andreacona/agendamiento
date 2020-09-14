@@ -44,21 +44,12 @@ export class FiltrosBusquedaComponent implements OnInit {
     },
   ];
 
-  box: any[] = [
+  servicios: any[] = [
     {
-      nombre: 'box 1',
+      servicio1: 'primera consulta',
     },
     {
-      nombre: 'box 2',
-    },
-    {
-      nombre: 'box 3',
-    },
-    {
-      nombre: 'box 4',
-    },
-    {
-      nombre: 'box 5',
+      servicio2: 'tratamiento medico',
     },
   ];
 

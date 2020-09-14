@@ -8,13 +8,13 @@ const routes: Routes = [
       import('./calendar/calendar.module').then((m) => m.CalendarModule),
   },
   {
-    path: 'login',
+    path: '',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
