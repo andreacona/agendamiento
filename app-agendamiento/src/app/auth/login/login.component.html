@@ -1,14 +1,41 @@
-<mat-grid-list cols="2" rowHeight="2:1">
-  <mat-grid-tile rowspan="2">
-    <img class="img-login" src="/assets/images/login.PNG" alt="imagen login"
-  /></mat-grid-tile>
-  <mat-grid-tile>
-    <div>
-      <h2>Bienvenido</h2>
-      <br />
-      <h1>Iniciar sesión</h1>
+<div id="box">
+  <div>
+    <div class="box-image">
+      <img class="logo" src="/assets/images/logo-amarillo.png" />
+
+      <img
+        class="img-login"
+        src="/assets/images/login.PNG"
+        alt="imagen login"
+      />
     </div>
-  </mat-grid-tile>
-  <mat-grid-tile>3</mat-grid-tile>
-</mat-grid-list>
+  </div>
+
+  <div class="login-secction">
+    <h1>INICIAR SESIÓN</h1>
+    <div class="form-login">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre de Usuario</mat-label>
+          <input matInput placeholder="Placeholder" />
+          <mat-hint>Ingresa tu usuario</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input matInput placeholder="Placeholder" />
+          <mat-hint>Ingresa tu contraseña</mat-hint>
+        </mat-form-field>
+      </div>
+      <section>
+        <button mat-raised-button color="red">Iniciar sesión</button>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <h3>QUARTO @ DESARROLLADO POR SEIZA</h3>
+</div>
 <router-outlet></router-outlet>
