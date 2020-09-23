@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
-  declarations: [VistaDiariaComponent, VistaSemanalComponent, HomeComponent],
+  declarations: [VistaSemanalComponent, HomeComponent],
   imports: [
     RouterModule,
     CommonModule,
