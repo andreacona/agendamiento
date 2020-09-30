@@ -1,0 +1,68 @@
+.calendar {
+  width: 70%;
+  padding: 30px;
+}
+
+.md-datepicker-button {
+  display: none !important;
+}
+
+.md-datepicker-input-container {
+  margin-left: 0 !important;
+}
+
+.box {
+  width: calc(100% - 70px);
+}
+
+.cal-week-view .cal-time-events .cal-events-container {
+  position: relative;
+}
+
+.nombre.box {
+  background-color: yellow;
+}
+
+h2 {
+  margin: 10px 0 10px;
+}
+
+.mat-card {
+  width: 243px;
+  height: 350px;
+  margin: 30px 30px 30px 30px;
+  padding: 0px;
+}
+
+.header-card {
+  border-bottom: 1px solid #b5bfc8;
+  padding: 0px;
+  padding: 10px 10px 10px;
+}
+
+mat-card-tittle {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+mat-card-subtittle {
+  font-size: 12px;
+}
+
+ul {
+  padding: 14px 14px 0px 14px;
+}
+
+ul li {
+  list-style: none;
+  margin-bottom: 10px;
+}
+
+.btn-card {
+  margin-top: 40px;
+  margin-left: 30px;
+}
+
+.btn-card-izq {
+  margin-right: 10px;
+}

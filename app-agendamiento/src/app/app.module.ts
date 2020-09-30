@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReusableModule } from './reusable/reusable.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 import { adapterFactory } from 'angular-calendar/date-adapters/moment';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -39,6 +42,9 @@ import { VistaDiariaComponent } from './calendar/vista-diaria/vista-diaria.compo
     FormsModule,
     NgbModalModule,
     FlatpickrModule.forRoot(),
+    MatCardModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent],

@@ -1,130 +1,175 @@
 <div class="container">
-  <div class="row start-md">
-    <div class="col-md-6">
-      <div class="box">
-        <h2>Buscar por:</h2>
-        <mat-button-toggle-group
-          #grupo="matButtonToggleGroup"
-          name="filtroBusqueda"
-          aria-label="Filtro Busqueda"
+  <div class="col-md-3">
+    <div class="box">
+      <h2>Buscar por:</h2>
+      <mat-button-toggle-group
+        #grupo="matButtonToggleGroup"
+        name="filtroBusqueda"
+        aria-label="Filtro Busqueda"
+      >
+        <mat-button-toggle
+          (change)="changeValueButton($event.value)"
+          value="filtroNombre"
         >
-          <mat-button-toggle
-            (change)="changeValueButton($event.value)"
-            value="filtroNombre"
-          >
-            Nombre
-          </mat-button-toggle>
-          <mat-button-toggle
-            (change)="changeValueButton($event.value)"
-            value="filtroEspecialidad"
-          >
-            Especialidad
-          </mat-button-toggle>
-        </mat-button-toggle-group>
+          Nombre
+        </mat-button-toggle>
+        <mat-button-toggle
+          (change)="changeValueButton($event.value)"
+          value="filtroEspecialidad"
+        >
+          Especialidad
+        </mat-button-toggle>
+      </mat-button-toggle-group>
 
-        <form>
-          <div>
-            <div *ngIf="valueButton == 'filtroNombre'">
-              <h4>Nombre Especialista</h4>
-              <mat-form-field appearance="outline">
-                <mat-label> Seleccionar especialista </mat-label>
-                <mat-select
-                  (selectionChange)="changeValueProfesion($event.selectedIndex)"
+      <form>
+        <div>
+          <div *ngIf="valueButton == 'filtroNombre'">
+            <h4>Nombre Especialista</h4>
+            <mat-form-field appearance="outline">
+              <mat-label> Seleccionar especialista </mat-label>
+              <mat-select
+                (selectionChange)="changeValueProfesion($event.selectedIndex)"
+              >
+                <mat-option
+                  *ngFor="let especialista of especialistas"
+                  [value]="especialista.id"
                 >
-                  <mat-option
-                    *ngFor="let especialista of especialistas"
-                    [value]="especialista.id"
-                  >
-                    {{ especialista.nombre }}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                  {{ especialista.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
 
-              <div>
-                <h4>Servicios:</h4>
-                <mat-form-field appearance="outline">
-                  <mat-select>
-                    <mat-option *ngFor="let profesion of professions">{{
-                      profesion.nombre
-                    }}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-
-              <div>
-                <h4>Elegir fecha</h4>
-                <mat-form-field
-                  color="$agendamiento-app-accent"
-                  appearance="outline"
-                >
-                  <mat-label>ver disponibilidad horaria</mat-label>
-                  <input matInput [matDatepicker]="picker1" />
-                  <mat-datepicker-toggle
-                    matSuffix
-                    [for]="picker1"
-                  ></mat-datepicker-toggle>
-                  <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div *ngIf="valueButton == 'filtroEspecialidad'">
-              <h4>Especialidad</h4>
+            <div>
+              <h4>Servicios:</h4>
               <mat-form-field appearance="outline">
-                <mat-label> Seleccionar especialidad </mat-label>
                 <mat-select>
-                  <mat-option
-                    *ngFor="let especialista of especialistas"
-                    [value]="especialista.valor"
-                  >
-                    {{ especialista.profesion }}
+                  <mat-option *ngFor="let profesion of professions">{{
+                    profesion.nombre
+                  }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <h4>Elegir fecha</h4>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label style="font-size: 12px"
+                  >Escribe la fecha dd-mm-aa</mat-label
+                >
+                <input matInput [matDatepicker]="picker1" />
+                <mat-calendar
+                  [selected]="selectedDate"
+                  (selectedChange)="selectedChange($event)"
+                  (yearSelected)="yearSelected()"
+                  (monthSelected)="monthSelected()"
+                  (_userSelection)="userSelection()"
+                  (cdkAutofill)="cdkAutofill()"
+                >
+                </mat-calendar>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div *ngIf="valueButton == 'filtroEspecialidad'">
+            <h4>Especialidad</h4>
+            <mat-form-field appearance="outline">
+              <mat-label> Seleccionar especialidad </mat-label>
+              <mat-select>
+                <mat-option
+                  *ngFor="let especialidad of especialidades"
+                  [value]="especialidad.id"
+                >
+                  {{ especialidad.nombre }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div>
+              <h4>Profesional</h4>
+              <mat-form-field appearance="outline">
+                <mat-select>
+                  <mat-option *ngFor="let food of foods" [value]="food.value">
+                    {{ food.viewValue }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+            </div>
 
-              <div>
-                <h4>Profesional</h4>
-                <mat-form-field appearance="outline">
-                  <mat-select>
-                    <mat-option *ngFor="let food of foods" [value]="food.value">
-                      {{ food.viewValue }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+            <div>
+              <h4>Convenio</h4>
+              <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
+              <br />
+              <mat-checkbox class="convenios-margin">Particular</mat-checkbox>
+            </div>
 
-              <div>
-                <h4>Convenio</h4>
-                <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
-                <br />
-                <mat-checkbox class="convenios-margin">Particular</mat-checkbox>
-              </div>
-
-              <div>
-                <h4>Elegir fecha</h4>
-                <mat-form-field color="accent" appearance="outline">
-                  <mat-label>ver disponibilidad horaria</mat-label>
-                  <input matInput [matDatepicker]="picker1" />
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Choose a date</mat-label>
-                    <input matInput [matDatepicker]="picker" />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker
-                      [dateClass]="dateClass"
-                      #picker
-                    ></mat-datepicker>
-                  </mat-form-field>
-                  <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-              </div>
+            <div>
+              <h4>Elegir fecha</h4>
+              <mat-form-field color="accent" appearance="outline">
+                <mat-label style="font-size: 12px"
+                  >Escribe la fecha dd-mm-aa</mat-label
+                >
+                <input matInput [matDatepicker]="picker1" />
+                <mat-calendar
+                  [selected]="selectedDate"
+                  (selectedChange)="selectedChange($event)"
+                  (yearSelected)="yearSelected()"
+                  (monthSelected)="monthSelected()"
+                  (_userSelection)="userSelection()"
+                  (cdkAutofill)="cdkAutofill()"
+                >
+                </mat-calendar>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
             </div>
           </div>
-        </form>
+        </div>
+      </form>
+      <div class="simbologia">
+        <ul>
+          <li>
+            <div class="iconos-simbologia">
+              <img id="logo" src="/assets/images/demañana-disponible.svg" />
+              <h5>Media mañana disponible</h5>
+            </div>
+          </li>
+          <li>
+            <div class="iconos-simbologia">
+              <img id="logo" src="/assets/images/detarde-disponible.svg" />
+              <h5>Media tarde disponible</h5>
+            </div>
+          </li>
+          <li>
+            <img id="logo" src="/assets/images/completo-disponible.svg" />
+            <h5 style="display: -webkit-inline-box">Día completo disponible</h5>
+          </li>
+          <li>
+            <div class="iconos-simbologia">
+              <img id="logo" src="/assets/images/sin-disponibilidad.svg" />
+              <h5>Día completo sin horas</h5>
+            </div>
+          </li>
+          <li>
+            <div class="iconos-simbologia">
+              <img id="logo" src="/assets/images/no-trabajado.svg" />
+              <h5>Día no disponible no trabajado</h5>
+            </div>
+          </li>
+          <li>
+            <div class="iconos-simbologia">
+              <img id="logo" src="/assets/images/seleccionado.svg" />
+              <h5>Día seleccionado / "Hoy por defecto"</h5>
+            </div>
+          </li>
+          <li>
+            <div class="iconos-simbologia">
+              <img id="logo" src="/assets/images/hoy-noseleccionado.svg" />
+              <h5>Hoy, no seleccionado</h5>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>

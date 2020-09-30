@@ -23,6 +23,7 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import * as moment from 'moment';
 
 const colors: any = {
   red: {
@@ -46,130 +47,229 @@ const colors: any = {
   styleUrls: ['./vista-diaria.component.scss'],
 })
 export class VistaDiariaComponent {
-  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Day;
+  /** Tipo de vista, puede ser month, week o day, se cambia en el HTML (linea 81) */
+  view = 'day';
 
-  CalendarView = CalendarView;
-
+  /** Fecha que se muestra en el calendario */
   viewDate: Date = new Date();
 
+  /** Se utiliza para mostrar el detalle de el evento seleccionado */
   modalData: {
     action: string;
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: 'E',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: 'D',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.events = this.events.filter((iEvent) => iEvent !== event);
-        this.handleEvent('Deleted', event);
-      },
-    },
-  ];
-
+  /** Se utiliza para actualizar los eventos utilizando refresh.next() */
   refresh: Subject<any> = new Subject();
 
+  /** Eventos */
   events: CalendarEvent[] = [
     {
-      start: subDays(startOfDay(new Date()), 1),
-      end: addDays(new Date(), 1),
-      title: 'A 3 day event',
+      start: moment('2020-09-08 08:00:00').toDate(),
+      end: moment('2020-09-08 08:45:00').toDate(),
+      title: 'Control mensual - Juan Lopez',
       color: colors.red,
-      actions: this.actions,
-      allDay: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
+      meta: {
+        profesional: 'Freddy Torres Jimenez',
+        cliente: 'Juan Lopez',
+        especialidadProfesiona: 'Dermatología',
+        box: 1,
+        tipoDeCita: 'Control mensual',
       },
-      draggable: true,
-      cssClass: null,
-      id: null,
-      meta: null,
     },
     {
       start: startOfDay(new Date()),
       title: 'An event with no end date',
       color: colors.yellow,
-      actions: this.actions,
     },
     {
       start: subDays(endOfMonth(new Date()), 3),
       end: addDays(endOfMonth(new Date()), 3),
       title: 'A long event that spans 2 months',
       color: colors.blue,
-      allDay: true,
     },
     {
-      start: addHours(startOfDay(new Date()), 2),
-      end: addHours(new Date(), 2),
-      title: 'A draggable and resizable event',
+      // start: addHours(startOfDay(new Date()), 2),
+      // end: new Date(),
+      start: moment('2020-09-08 08:45:00').toDate(),
+      end: moment('2020-09-08 09:15:00').toDate(),
+      title: 'Examen de sangre - Elizabeth Vergara',
       color: colors.yellow,
-      actions: this.actions,
       resizable: {
         beforeStart: true,
-        afterEnd: true,
+        afterEnd: false,
       },
       draggable: true,
       meta: {
-        nombrePaciente: 'Juanito',
-        nombreEspecialista: 'Yolanda',
+        profesional: 'Yolanda Sepulveda Cortez',
+        cliente: 'Elizabeth Vergara',
+        especialidadProfesiona: 'Dermatología',
+        box: 1,
+        tipoDeCita: 'Control mensual',
       },
     },
   ];
 
-  // activeDayIsOpen: boolean = true;
+  citas: {
+    box: { id: number; nombre: string };
+    events: CalendarEvent[];
+  }[] = [];
+  // = [
+  //   {
+  //     box: { id: 1, nombre: 'Box 1' },
+  //     events: [
+  //       {
+  //         start: moment('2020-09-24 08:00:00').toDate(),
+  //         end: moment('2020-09-24 08:45:00').toDate(),
+  //         title: 'Control mensual - Juan Lopez',
+  //         color: colors.red,
+  //         meta: {
+  //           profesional: 'Freddy Torres Jimenez',
+  //           cliente: 'Juan Lopez',
+  //           especialidadProfesiona: 'Dermatología',
+  //           box: 1,
+  //           tipoDeCita: 'Control mensual',
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     box: { id: 2, nombre: 'Box 2' },
+  //     events: [
+  //       {
+  //         start: moment('2020-09-24 09:00:00').toDate(),
+  //         end: moment('2020-09-24 09:30:00').toDate(),
+  //         title: 'Control - Pedro Lopez',
+  //         color: colors.red,
+  //         meta: {
+  //           profesional: 'Freddy Torres Jimenez',
+  //           cliente: 'Juan Lopez',
+  //           especialidadProfesiona: 'Dermatología',
+  //           box: 1,
+  //           tipoDeCita: 'Control mensual',
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     box: { id: 3, nombre: 'Box 3' },
+  //     events: [
+  //       {
+  //         start: moment('2020-09-24 09:00:00').toDate(),
+  //         end: moment('2020-09-24 09:30:00').toDate(),
+  //         title: 'Control - Pedro Lopez',
+  //         color: colors.red,
+  //         meta: {
+  //           profesional: 'Freddy Torres Jimenez',
+  //           cliente: 'Juan Lopez',
+  //           especialidadProfesiona: 'Dermatología',
+  //           box: 1,
+  //           tipoDeCita: 'Control mensual',
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     box: { id: 4, nombre: 'Box 4' },
+  //     events: [
+  //       {
+  //         start: moment('2020-09-24 09:00:00').toDate(),
+  //         end: moment('2020-09-24 09:30:00').toDate(),
+  //         title: 'Control - Pedro Lopez',
+  //         color: colors.red,
+  //         meta: {
+  //           profesional: 'Freddy Torres Jimenez',
+  //           cliente: 'Juan Lopez',
+  //           especialidadProfesiona: 'Dermatología',
+  //           box: 1,
+  //           tipoDeCita: 'Control mensual',
+  //         },
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     box: { id: 5, nombre: 'Box 5' },
+  //     events: [
+  //       {
+  //         start: moment('2020-09-24 10:00:00').toDate(),
+  //         end: moment('2020-09-24 12:30:00').toDate(),
+  //         title: 'Control - Pedro Lopez',
+  //         color: colors.red,
+  //         meta: {
+  //           profesional: 'Freddy Torres Jimenez',
+  //           cliente: 'Juan Lopez',
+  //           especialidadProfesiona: 'Dermatología',
+  //           box: 1,
+  //           tipoDeCita: 'Control mensual',
+  //         },
+  //       },
+  //     ],
+  //   },
+  // ];
 
-  constructor(private modal: NgbModal) {}
+  /** Utilizado en la vista por mes para mostrar eventos de un dia seleccionado */
+  activeDayIsOpen = false;
 
-  ngOnInit(): void {}
+  horaDeInicio: number;
+  saludo: string;
 
-  // dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-  //   if (isSameMonth(date, this.viewDate)) {
-  //     if (
-  //       (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-  //       events.length === 0
-  //     ) {
-  //       this.activeDayIsOpen = false;
-  //     } else {
-  //       this.activeDayIsOpen = true;
-  //     }
-  //     this.viewDate = date;
-  //   }
-  //   console.log(events);
-  // }
+  constructor(private modal: NgbModal) {
+    this.horaDeInicio = 8;
+  }
+
+  ngOnInit(): void {
+    this.cargarCitas();
+  }
+
+  /** Al clickear un dia en la vista del mes */
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+        this.viewDate = date;
+      }
+    }
+    console.log(date);
+    console.log(events);
+  }
+
+  /** Se ejecuta al clickear en una hora utilizado en vista semanal y diaria */
+  hourClicked(boxId: number, fechaSeleccionada: Date): void {
+    console.log('===============');
+    console.log('Box:' + boxId);
+    console.log(fechaSeleccionada);
+    console.log('===============');
+  }
 
   eventTimesChanged({
     event,
     newStart,
     newEnd,
   }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
+    event.start = newStart;
+    event.end = newEnd;
+    this.handleEvent('Dropped or resized', event, null);
+    this.refresh.next();
   }
 
-  /* SE LLAMA AL HACER CLICK EN EVENTO*/
-  handleEvent(action: string, event: CalendarEvent): void {
+  /** Se llama al editar, eliminar, arrastrar o cambiar tamaño de algun evento */
+  handleEvent(action: string, event: CalendarEvent, ev): void {
+    const mouseX = (ev.sourceEvent as MouseEvent).pageX;
+    const mouseY = (ev.sourceEvent as MouseEvent).pageY;
+    console.log(mouseX);
+    console.log(mouseY);
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+
+    if (action !== 'Dropped or resized') {
+      this.modal.open(this.modalContent, { size: 'lg' });
+    }
   }
 
   addEvent(): void {
@@ -184,26 +284,105 @@ export class VistaDiariaComponent {
         afterEnd: true,
       },
     });
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent) {
-    this.events = this.events.filter((event) => event !== eventToDelete);
-  }
-
-  // setView(view: CalendarView) {
-  //   this.view = view;
-  // }
-
-  // closeOpenMonthViewDay() {
-  //   this.activeDayIsOpen = false;
-  // }
-
-  /**SE llama al clickear una hora en dia sin evento */
-  hourClicked(fechaClickeada: Date) {
-    console.log(fechaClickeada);
+    this.refresh.next();
   }
 
   actualizarEnventosEnCalendario() {
     this.refresh.next();
+  }
+
+  cargarCitas() {
+    this.citas = [
+      {
+        box: { id: 1, nombre: 'Box 1' },
+        events: [
+          {
+            start: moment('2020-09-29 08:00:00').toDate(),
+            end: moment('2020-09-30 08:45:00').toDate(),
+            title: 'Control mensual - Juan Lopez',
+            color: colors.red,
+            meta: {
+              profesional: 'Freddy Torres Jimenez',
+              cliente: 'Juan Lopez',
+              especialidadProfesiona: 'Dermatología',
+              box: 1,
+              tipoDeCita: 'Control mensual',
+            },
+          },
+        ],
+      },
+      {
+        box: { id: 2, nombre: 'Box 2' },
+        events: [
+          {
+            start: moment('2020-09-24 09:00:00').toDate(),
+            end: moment('2020-09-24 09:30:00').toDate(),
+            title: 'Control - Pedro Lopez',
+            color: colors.red,
+            meta: {
+              profesional: 'Freddy Torres Jimenez',
+              cliente: 'Juan Lopez',
+              especialidadProfesiona: 'Dermatología',
+              box: 1,
+              tipoDeCita: 'Control mensual',
+            },
+          },
+        ],
+      },
+      {
+        box: { id: 3, nombre: 'Box 3' },
+        events: [
+          {
+            start: moment('2020-09-24 09:00:00').toDate(),
+            end: moment('2020-09-24 09:30:00').toDate(),
+            title: 'Control - Pedro Lopez',
+            color: colors.red,
+            meta: {
+              profesional: 'Freddy Torres Jimenez',
+              cliente: 'Juan Lopez',
+              especialidadProfesiona: 'Dermatología',
+              box: 1,
+              tipoDeCita: 'Control mensual',
+            },
+          },
+        ],
+      },
+      {
+        box: { id: 4, nombre: 'Box 4' },
+        events: [
+          {
+            start: moment('2020-09-24 09:00:00').toDate(),
+            end: moment('2020-09-24 09:30:00').toDate(),
+            title: 'Control - Pedro Lopez',
+            color: colors.red,
+            meta: {
+              profesional: 'Freddy Torres Jimenez',
+              cliente: 'Juan Lopez',
+              especialidadProfesiona: 'Dermatología',
+              box: 1,
+              tipoDeCita: 'Control mensual',
+            },
+          },
+        ],
+      },
+      {
+        box: { id: 5, nombre: 'Box 5' },
+        events: [
+          {
+            start: moment('2020-09-24 10:00:00').toDate(),
+            end: moment('2020-09-24 12:30:00').toDate(),
+            title: 'Control - Pedro Lopez',
+            color: colors.red,
+            meta: {
+              profesional: 'Freddy Torres Jimenez',
+              cliente: 'Juan Lopez',
+              especialidadProfesiona: 'Dermatología',
+              box: 1,
+              tipoDeCita: 'Control mensual',
+            },
+          },
+        ],
+      },
+    ];
   }
 }

@@ -1,4 +1,55 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.contain {
+  display: flex;
+}
+
+/* OCULTAR LA HORA EN LAS COLUMNAS DE LOS BOXES*/
+.box .cal-time {
+  display: none !important;
+  text-align: inherit;
+}
+
+/* SE UTILIZA PARA EL ANCHO DE LOS EVENTOS */
+.cal-day-view .cal-events-container {
+  margin-left: 0px;
+  width: 80%;
+}
+
+/* PARA CENTRAR LOS EVENTOS */
+.cal-week-view * {
+  text-align: -webkit-center;
+}
+
+.calendar {
+  margin-top: 60px;
+  margin-left: 60px;
+  margin-right: 60px;
+}
+
+.nombre-box {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+.modal-backdrop {
+  background-color: transparent;
+}
+
+.modal-content {
+  max-width: 243px;
+}
+
+.mat-card {
+  margin: 0px !important;
+}

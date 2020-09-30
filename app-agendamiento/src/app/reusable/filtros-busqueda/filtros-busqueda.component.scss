@@ -1,6 +1,7 @@
 .container {
-  margin-left: 105px;
+  margin-left: 40px;
   margin-top: 40px;
+  width: 370px;
 }
 h2 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
@@ -26,9 +27,16 @@ h2 {
 
 h4 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 20px;
+  font-size: 15px;
   margin-top: 40px;
   margin-bottom: 40px;
+}
+
+h5 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 15px;
+  margin-left: 20px;
+  margin-top: 3px;
 }
 
 mat-form-field {
@@ -51,4 +59,36 @@ mat-checkbox {
 .mat-checkbox-background {
   background-color: #f4c004;
   color: #f4c004;
+}
+
+ul {
+  padding-left: 0px;
+}
+
+ul li {
+  list-style: none;
+  margin-top: 30px;
+}
+
+.simbologia {
+  display: flex;
+}
+
+.fixed-calendar {
+  width: 340px;
+  height: 340px;
+  display: block;
+}
+
+.fixed-calendar .md-calendar-scroll-mask {
+  width: 340px !important;
+}
+
+.fixed-calendar .md-virtual-repeat-scroller {
+  width: 340px !important;
+  height: 308px;
+}
+
+.iconos-simbologia {
+  display: -webkit-inline-box;
 }

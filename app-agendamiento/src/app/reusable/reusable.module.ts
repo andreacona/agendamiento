@@ -17,10 +17,14 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { RouterModule } from '@angular/router';
 import { ModalPopUpComponent } from './modal-pop-up/modal-pop-up.component';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  declarations: [HeaderComponent, FiltrosBusquedaComponent, ModalPopUpComponent],
+  declarations: [
+    HeaderComponent,
+    FiltrosBusquedaComponent,
+    ModalPopUpComponent,
+  ],
 
   imports: [
     CommonModule,
@@ -36,7 +40,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatButtonToggleModule,
     MatSelectModule,
     MatCheckboxModule,
-    MatDialogModule
+    MatDialogModule,
   ],
 
   exports: [HeaderComponent, FiltrosBusquedaComponent],

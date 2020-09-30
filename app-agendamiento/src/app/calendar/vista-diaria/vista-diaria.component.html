@@ -4,127 +4,144 @@
   </div>
   <div class="contain">
     <app-filtros-busqueda></app-filtros-busqueda>
+    <!-- <button (click)="cargarCitas()">Cargar horas</button> -->
+
+    <!--CALENDARIO INICIO-->
+    <div class="calendar">
+      <div class="row">
+        <div style="width: 70px">
+          <h2>&nbsp;</h2>
+          <mwl-calendar-day-view
+            [viewDate]="viewDate"
+            [dayStartHour]="horaDeInicio"
+            [dayEndHour]="20"
+            [hourSegments]="4"
+          ></mwl-calendar-day-view>
+        </div>
+
+        <!-- BOXES-->
+        <div class="row m-0 box">
+          <div
+            [style]="{ width: 100 / citas.length + '%', textAlign: 'center' }"
+            *ngFor="let box of citas"
+          >
+            <div class="nombre-box">
+              <h2>{{ box.box.nombre }}</h2>
+            </div>
+            <mwl-calendar-day-view
+              [viewDate]="viewDate"
+              [events]="box.events"
+              [refresh]="refresh"
+              (eventClicked)="handleEvent('Clicked', $event.event, $event)"
+              (eventTimesChanged)="eventTimesChanged($event)"
+              (hourSegmentClicked)="hourClicked(box.box.id, $event.date)"
+              [dayStartHour]="horaDeInicio"
+              [hourSegments]="4"
+              [dayEndHour]="20"
+            ></mwl-calendar-day-view>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--CALENDARIO FIN-->
+
+    <!-- Modal con detalle de la cita -->
+
+    <ng-template #modalContent let-close="close">
+      <!--<div class="modal-header">
+        <h5 class="modal-title">Detalle de cita</h5>
+        <button type="button" class="close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body row">
+
+        <div>
+          <label>Profesional:</label>
+          <label>{{ modalData?.event?.meta?.profesional }}</label>
+        </div>
+
+        <div>
+          <label>Cliente:</label>
+          <label>{{ modalData?.event?.meta?.cliente }}</label>
+        </div>
+
+        <div>
+          <label>Tipo de cita:</label>
+          <label>{{ modalData?.event?.meta?.tipoDeCita }}</label>
+        </div>
+
+        <div>
+          <label>Box:</label>
+          <label>{{ modalData?.event?.meta?.box }}</label>
+        </div>
+
+        <div>
+          <label>Fecha Inicio:</label>
+          <label>{{ modalData?.event?.start }}</label>
+        </div>
+
+        <div>
+          <label>Fecha Inicio:</label>
+          <label>{{ modalData?.event?.end }}</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="close()"
+        >
+          OK
+        </button>
+      </div> -->
+      <mat-card>
+        <div class="header-card">
+          <mat-card-tittle>Paciente: Valentina Escobar</mat-card-tittle>
+          <br />
+          <mat-card-subtittle
+            >Especialista: Yolanda Sepulveda</mat-card-subtittle
+          >
+          <!-- <button
+            mat-icon-button
+            disabled
+            aria-label="Example icon button with a open in new tab icon"
+          >
+            <mat-icon>cancel</mat-icon>
+          </button>-->
+        </div>
+        <mat-card-content>
+          <ul>
+            <li>
+              <span>Día/hora:</span>
+            </li>
+            <li>
+              <span>Consulta:</span>
+            </li>
+            <li>
+              <span>Email:</span>
+            </li>
+            <li>
+              <span>teléfono:</span>
+            </li>
+            <li>
+              <span>Previsión:</span>
+            </li>
+            <li>
+              <span>Pago:</span>
+            </li>
+          </ul>
+          <div class="btn-card">
+            <button mat-raised-button color="primary" class="btn-card-izq">
+              Eliminar
+            </button>
+            <button mat-raised-button>Editar</button>
+          </div>
+        </mat-card-content>
+        <mat-card-footer> </mat-card-footer>
+      </mat-card>
+    </ng-template>
+
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<div class="row text-center">
-  <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        mwlCalendarPreviousView
-        [view]="view"
-        [(viewDate)]="viewDate"
-      >
-        Anterior
-      </div>
-      <div
-        class="btn btn-outline-secondary"
-        mwlCalendarToday
-        [(viewDate)]="viewDate"
-      >
-        Hoy
-      </div>
-      <div
-        class="btn btn-primary"
-        mwlCalendarNextView
-        [view]="view"
-        [(viewDate)]="viewDate"
-      >
-        Siguiente
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
-  </div>
-  <!-- <div class="col-md-4">
-    <div class="btn-group">
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Month)"
-        [class.active]="view === CalendarView.Month"
-      >
-        Month
-      </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week"
-      >
-        Week
-      </div>
-      <div
-        class="btn btn-primary"
-        (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day"
-      >
-        Day
-      </div>
-    </div>
-  </div> -->
-</div>
-<br />
-<div [ngSwitch]="view">
-  <!-- <mwl-calendar-month-view
-    *ngSwitchCase="CalendarView.Month"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    [activeDayIsOpen]="activeDayIsOpen"
-    (dayClicked)="dayClicked($event.day)"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-month-view>
-  <mwl-calendar-week-view
-    *ngSwitchCase="CalendarView.Week"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-  >
-  </mwl-calendar-week-view> -->
-
-  <mwl-calendar-day-view
-    *ngSwitchCase="CalendarView.Day"
-    [viewDate]="viewDate"
-    [events]="events"
-    [refresh]="refresh"
-    (eventClicked)="handleEvent('Clicked', $event.event)"
-    (eventTimesChanged)="eventTimesChanged($event)"
-    (hourSegmentClicked)="hourClicked($event.date)"
-  >
-  </mwl-calendar-day-view>
-</div>
-
-<!-- Everything you see below is just for the demo, you don't need to include it in your app -->
-
-<br /><br /><br />
-
-<ng-template #modalContent let-close="close">
-  <div class="modal-header">
-    <h5 class="modal-title">Event action occurred</h5>
-    <button type="button" class="close" (click)="close()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <div>
-      Action:
-      <pre>{{ modalData?.action }}</pre>
-    </div>
-    <div>
-      Event: {{ modalData?.event.title }}
-      {{ modalData?.event?.meta?.cliente?.nombre }}
-      <!-- <pre>{{ modalData?.event | json }}</pre> -->
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="close()">
-      OK
-    </button>
-  </div>
-</ng-template>

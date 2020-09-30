@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 
 import {
   startOfDay,
@@ -12,8 +6,6 @@ import {
   subDays,
   addDays,
   endOfMonth,
-  isSameDay,
-  isSameMonth,
   addHours,
 } from 'date-fns';
 import { Subject } from 'rxjs';
@@ -93,13 +85,44 @@ export class FiltrosBusquedaComponent implements OnInit {
     },
   ];
 
+  especialidades: any[] = [
+    {
+      id: 1,
+      nombre: 'kinesiología',
+    },
+    {
+      id: 2,
+      nombre: 'fonoaudiología',
+    },
+    {
+      id: 3,
+      nombre: 'Medicina General',
+    },
+    {
+      id: 4,
+      nombre: 'Nutrición',
+    },
+    {
+      id: 5,
+      nombre: 'Psicología',
+    },
+    {
+      id: 6,
+      nombre: 'Terapia Ocupacional',
+    },
+    {
+      id: 7,
+      nombre: 'Obstetricia',
+    },
+  ];
+
   valueButton = 'filtroNombre';
   valueProfesion = 'especialista.id';
   professions = [];
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
-  view: CalendarView = CalendarView.Month;
+  view: CalendarView = CalendarView.Day;
 
   CalendarView = CalendarView;
 
@@ -112,14 +135,14 @@ export class FiltrosBusquedaComponent implements OnInit {
 
   actions: CalendarEventAction[] = [
     {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
+      label: 'E',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.handleEvent('Edited', event);
       },
     },
     {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
+      label: 'D',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         this.events = this.events.filter((iEvent) => iEvent !== event);
@@ -143,6 +166,9 @@ export class FiltrosBusquedaComponent implements OnInit {
         afterEnd: true,
       },
       draggable: true,
+      cssClass: null,
+      id: null,
+      meta: null,
     },
     {
       start: startOfDay(new Date()),
@@ -168,10 +194,14 @@ export class FiltrosBusquedaComponent implements OnInit {
         afterEnd: true,
       },
       draggable: true,
+      meta: {
+        nombrePaciente: 'Juanito',
+        nombreEspecialista: 'Yolanda',
+      },
     },
   ];
 
-  activeDayIsOpen: boolean = true;
+  // activeDayIsOpen: boolean = true;
 
   constructor(private modal: NgbModal) {}
 
@@ -184,20 +214,6 @@ export class FiltrosBusquedaComponent implements OnInit {
   changeValueProfesion(value: number) {
     this.professions = this.especialistas[value].profesion;
     console.log(this.professions);
-  }
-
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
-    }
   }
 
   eventTimesChanged({
@@ -218,37 +234,44 @@ export class FiltrosBusquedaComponent implements OnInit {
     this.handleEvent('Dropped or resized', event);
   }
 
+  /* SE LLAMA AL HACER CLICK EN EVENTO*/
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     this.modal.open(this.modalContent, { size: 'lg' });
   }
 
   addEvent(): void {
-    this.events = [
-      ...this.events,
-      {
-        title: 'New event',
-        start: startOfDay(new Date()),
-        end: endOfDay(new Date()),
-        color: colors.red,
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true,
-        },
+    this.events.push({
+      title: 'New event',
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+      color: colors.red,
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true,
       },
-    ];
+    });
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToDelete);
   }
 
-  setView(view: CalendarView) {
-    this.view = view;
+  // setView(view: CalendarView) {
+  //   this.view = view;
+  // }
+
+  // closeOpenMonthViewDay() {
+  //   this.activeDayIsOpen = false;
+  // }
+
+  /**SE llama al clickear una hora en dia sin evento */
+  hourClicked(fechaClickeada: Date) {
+    console.log(fechaClickeada);
   }
 
-  closeOpenMonthViewDay() {
-    this.activeDayIsOpen = false;
+  actualizarEnventosEnCalendario() {
+    this.refresh.next();
   }
 }
