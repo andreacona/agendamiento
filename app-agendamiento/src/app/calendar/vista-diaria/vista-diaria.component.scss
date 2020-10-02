@@ -66,3 +66,15 @@ ul li {
 .btn-card-izq {
   margin-right: 10px;
 }
+
+.cal-week-view .cal-event {
+  color: white;
+  font-size: 13px;
+  font-family: sans-serif;
+}
+
+cal-event-title ng-star-inserted {
+  font-family: sans-serif;
+  font-size: 12px;
+  color: white;
+}

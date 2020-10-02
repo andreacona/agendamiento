@@ -1,1 +1,6 @@
-<h1>MODAL POP UP</h1>
+<div mat-dialog-content>Cuadro de dialogo</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="(onClickNo)">No</button>
+  <button mat-button [mat-dialog-close]="true">Sí</button>
+</div>

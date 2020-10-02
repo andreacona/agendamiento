@@ -22,6 +22,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { VistaDiariaComponent } from './calendar/vista-diaria/vista-diaria.component';
+import { ModalPopUpComponent } from './reusable/modal-pop-up/modal-pop-up.component';
 
 @NgModule({
   declarations: [AppComponent, VistaDiariaComponent],
@@ -46,6 +47,8 @@ import { VistaDiariaComponent } from './calendar/vista-diaria/vista-diaria.compo
     MatButtonModule,
     MatDialogModule,
   ],
+
+  entryComponents: [ModalPopUpComponent],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

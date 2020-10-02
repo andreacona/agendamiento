@@ -35,8 +35,8 @@ const colors: any = {
     secondary: '#D1E8FF',
   },
   yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
+    primary: '#F4C004',
+    secondary: '#F4C004',
   },
 };
 
@@ -297,10 +297,10 @@ export class VistaDiariaComponent {
         box: { id: 1, nombre: 'Box 1' },
         events: [
           {
-            start: moment('2020-09-29 08:00:00').toDate(),
-            end: moment('2020-09-30 08:45:00').toDate(),
+            start: moment('2020-10-02 10:00:00').toDate(),
+            end: moment('2020-10-02 10:45:00').toDate(),
             title: 'Control mensual - Juan Lopez',
-            color: colors.red,
+            color: colors.yellow,
             meta: {
               profesional: 'Freddy Torres Jimenez',
               cliente: 'Juan Lopez',

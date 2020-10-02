@@ -22,12 +22,22 @@ body {
 /* SE UTILIZA PARA EL ANCHO DE LOS EVENTOS */
 .cal-day-view .cal-events-container {
   margin-left: 0px;
-  width: 80%;
+  width: 100%;
+}
+
+.cal-week-view .cal-ends-within-day .cal-event {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 /* PARA CENTRAR LOS EVENTOS */
 .cal-week-view * {
   text-align: -webkit-center;
+  font-size: 13px;
+  font-family: sans-serif;
+  color: white;
 }
 
 .calendar {

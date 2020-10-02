@@ -1,7 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
+// Componentes //
+
 import { HeaderComponent } from './header/header.component';
 import { FiltrosBusquedaComponent } from './filtros-busqueda/filtros-busqueda.component';
+import { ModalPopUpComponent } from '././modal-pop-up/modal-pop-up.component';
+
+// angular material //
 
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -14,10 +21,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-
-import { RouterModule } from '@angular/router';
-import { ModalPopUpComponent } from './modal-pop-up/modal-pop-up.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -44,5 +52,9 @@ import { MatDialogModule } from '@angular/material/dialog';
   ],
 
   exports: [HeaderComponent, FiltrosBusquedaComponent],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+  ],
 })
 export class ReusableModule {}
