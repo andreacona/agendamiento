@@ -4,6 +4,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -78,4 +79,31 @@ body {
 .modal-reservar-cancelar .modal-content {
   height: 106;
   width: 240;
+}
+
+
+/* HORAS BLOQUEADAS */
+.cal-day-segment-disabled, .cal-day-segment-disabled:hover {
+  background-color: grey !important;
+  cursor: not-allowed;
+}
+
+.hora-bloqueada {
+  cursor: not-allowed !important;
+  background-color: #DADADA !important;
+}
+
+.hora-disponible {
+  cursor: pointer !important;
+  background-color: #FCECB4 !important;
+}
+
+/* UTILIZADO PARA MOSTRAR SEGMENTOS DE HORAS */
+.cal-day-view .cal-hour-segment.cal-after-hour-start .cal-time {
+  display: block;
+}
+
+/* COLOR HORAS EN CALENDARIO */
+.cal-week-view .cal-time {
+  color: black;
 }

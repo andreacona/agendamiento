@@ -15,13 +15,13 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
-  CalendarView,
+  CalendarView, CalendarWeekViewBeforeRenderEvent,
 } from 'angular-calendar';
 import * as moment from 'moment';
 
@@ -117,6 +117,8 @@ export class VistaDiariaComponent {
   citas: {
     box: { id: number; nombre: string };
     events: CalendarEvent[];
+    horasBloqueadas?: string[];
+    horasDisponibles?: string[]
   }[] = [];
   // = [
   //   {
@@ -226,7 +228,7 @@ export class VistaDiariaComponent {
   }
 
   /** Al clickear un dia en la vista del mes */
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -243,20 +245,23 @@ export class VistaDiariaComponent {
   }
 
   /** Se ejecuta al clickear en una hora utilizado en vista semanal y diaria */
-  hourClicked(boxId: number, fechaSeleccionada: Date): void {
+  hourClicked(boxId: number, fechaSeleccionada: Date, event: { date: Date, sourceEvent: MouseEvent }): void {
     console.log('===============');
     console.log('Box:' + boxId);
     console.log(fechaSeleccionada);
     console.log('===============');
 
-    this.modal.open(this.modalReservarCancelar, { size: 'reservar-cancelar' });
+    const horaSeleccionadaDisponible: boolean = this.horaEstaDisponible(event);
+    if (horaSeleccionadaDisponible) {
+      this.modal.open(this.modalReservarCancelar, {size: 'reservar-cancelar'});
+    }
   }
 
   eventTimesChanged({
-    event,
-    newStart,
-    newEnd,
-  }: CalendarEventTimesChangedEvent): void {
+                      event,
+                      newStart,
+                      newEnd,
+                    }: CalendarEventTimesChangedEvent): void {
     event.start = newStart;
     event.end = newEnd;
     this.handleEvent('Dropped or resized', event, null);
@@ -269,10 +274,10 @@ export class VistaDiariaComponent {
     const mouseY = (ev.sourceEvent as MouseEvent).pageY;
     console.log(mouseX);
     console.log(mouseY);
-    this.modalData = { event, action };
+    this.modalData = {event, action};
 
     if (action !== 'Dropped or resized') {
-      this.modal.open(this.modalContent, { size: 'lg' });
+      this.modal.open(this.modalContent, {size: 'lg'});
     }
   }
 
@@ -298,7 +303,7 @@ export class VistaDiariaComponent {
   cargarCitas() {
     this.citas = [
       {
-        box: { id: 1, nombre: 'Box 1' },
+        box: {id: 1, nombre: 'Box 1'},
         events: [
           {
             start: moment('2020-10-05 10:00:00').toDate(),
@@ -314,9 +319,31 @@ export class VistaDiariaComponent {
             },
           },
         ],
+        horasBloqueadas: ['13:00', '13:15', '13:30', '13:45', '14:00', '14:15', '14:30', '14:45', '15:00'],
+        horasDisponibles: ['08:00', '08:15', '08:30', '08:45', '09:00']
       },
       {
-        box: { id: 2, nombre: 'Box 2' },
+        box: {id: 2, nombre: 'Box 2'},
+        events: [
+          {
+            start: moment('2020-09-24 09:00:00').toDate(),
+            end: moment('2020-09-24 09:30:00').toDate(),
+            title: 'Control - Pedro Lopez',
+            color: colors.red,
+            meta: {
+              profesional: 'Freddy Torres Jimenez',
+              cliente: 'Juan Lopez',
+              especialidadProfesiona: 'Dermatología',
+              box: 1,
+              tipoDeCita: 'Control mensual',
+            },
+          },
+        ],
+        horasBloqueadas: ['13:00', '13:15', '13:30', '13:45', '14:0', '14:15', '14:30', '14:45', '15:0'],
+        horasDisponibles: ['8:0', '9:0']
+      },
+      {
+        box: {id: 3, nombre: 'Box 3'},
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -334,7 +361,7 @@ export class VistaDiariaComponent {
         ],
       },
       {
-        box: { id: 3, nombre: 'Box 3' },
+        box: {id: 4, nombre: 'Box 4'},
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -350,27 +377,10 @@ export class VistaDiariaComponent {
             },
           },
         ],
+        // horasBloqueadas: [8, 9, 10]
       },
       {
-        box: { id: 4, nombre: 'Box 4' },
-        events: [
-          {
-            start: moment('2020-09-24 09:00:00').toDate(),
-            end: moment('2020-09-24 09:30:00').toDate(),
-            title: 'Control - Pedro Lopez',
-            color: colors.red,
-            meta: {
-              profesional: 'Freddy Torres Jimenez',
-              cliente: 'Juan Lopez',
-              especialidadProfesiona: 'Dermatología',
-              box: 1,
-              tipoDeCita: 'Control mensual',
-            },
-          },
-        ],
-      },
-      {
-        box: { id: 5, nombre: 'Box 5' },
+        box: {id: 5, nombre: 'Box 5'},
         events: [
           {
             start: moment('2020-09-24 10:00:00').toDate(),
@@ -389,4 +399,35 @@ export class VistaDiariaComponent {
       },
     ];
   }
+
+
+  bloquearHorasEnCalendario(renderEvent: CalendarWeekViewBeforeRenderEvent, horasBloqueadas: string[],
+                            horasDisponibles: string[]): void {
+
+    renderEvent.hourColumns.forEach((hourColumn) => {
+      hourColumn.hours.forEach((hour) => {
+        hour.segments.forEach((segment) => {
+
+          const horaMinutos = moment(segment.date).format('HH:mm').toString();
+          /* BUSCAR HORAS BLOQUEADAS */
+          if (horasBloqueadas && horasBloqueadas.filter(hra => hra === horaMinutos).length > 0) {
+            segment.cssClass = 'hora-bloqueada';
+          }
+
+          /* BUSCAR HORAS DISPONIBLES */
+          if (horasDisponibles &&
+            horasDisponibles.filter(hra => hra === horaMinutos).length > 0) {
+            segment.cssClass = 'hora-disponible';
+          }
+
+        });
+      });
+    });
+  }
+
+
+  private horaEstaDisponible(event: { date: Date, sourceEvent: MouseEvent }): boolean {
+    return (event.sourceEvent.target as Element).className.indexOf('hora-disponible') !== -1;
+  }
+
 }

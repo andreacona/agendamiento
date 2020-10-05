@@ -36,10 +36,11 @@
               [refresh]="refresh"
               (eventClicked)="handleEvent('Clicked', $event.event, $event)"
               (eventTimesChanged)="eventTimesChanged($event)"
-              (hourSegmentClicked)="hourClicked(box.box.id, $event.date)"
+              (hourSegmentClicked)="hourClicked(box.box.id, $event.date, $event)"
               [dayStartHour]="horaDeInicio"
               [hourSegments]="4"
               [dayEndHour]="20"
+              (beforeViewRender)="bloquearHorasEnCalendario($event,box.horasBloqueadas,box.horasDisponibles)"
             ></mwl-calendar-day-view>
           </div>
         </div>
