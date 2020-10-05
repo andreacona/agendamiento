@@ -49,6 +49,8 @@ const colors: any = {
 export class VistaDiariaComponent {
   @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
+  @ViewChild('modalReservarCancelar') modalReservarCancelar: TemplateRef<any>;
+
   /** Tipo de vista, puede ser month, week o day, se cambia en el HTML (linea 81) */
   view = 'day';
 
@@ -246,6 +248,8 @@ export class VistaDiariaComponent {
     console.log('Box:' + boxId);
     console.log(fechaSeleccionada);
     console.log('===============');
+
+    this.modal.open(this.modalReservarCancelar, { size: 'reservar-cancelar' });
   }
 
   eventTimesChanged({
@@ -297,8 +301,8 @@ export class VistaDiariaComponent {
         box: { id: 1, nombre: 'Box 1' },
         events: [
           {
-            start: moment('2020-10-02 10:00:00').toDate(),
-            end: moment('2020-10-02 10:45:00').toDate(),
+            start: moment('2020-10-05 10:00:00').toDate(),
+            end: moment('2020-10-05 10:45:00').toDate(),
             title: 'Control mensual - Juan Lopez',
             color: colors.yellow,
             meta: {

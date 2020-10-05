@@ -6,7 +6,13 @@ import {
 } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
+
+//COMPONENTS
 import { AppComponent } from './app.component';
+
+//ANGULAR MATERIAL
+
+import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReusableModule } from './reusable/reusable.module';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -46,6 +52,7 @@ import { ModalPopUpComponent } from './reusable/modal-pop-up/modal-pop-up.compon
     MatCardModule,
     MatButtonModule,
     MatDialogModule,
+    MatIconModule,
   ],
 
   entryComponents: [ModalPopUpComponent],

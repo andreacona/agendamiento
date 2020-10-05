@@ -40,16 +40,27 @@ body {
   color: white;
 }
 
+/* ESTILOS CALENDARIO*/
 .calendar {
-  margin-top: 60px;
-  margin-left: 60px;
-  margin-right: 60px;
+  width: 70%;
+  padding-top: 102px;
+  padding-left: 30px;
+  padding-right: 10px;
+  padding-bottom: 60px;
+  margin-left: 40px;
 }
 
 .nombre-box {
   border-top: 1px solid;
   border-bottom: 1px solid;
   border-right: 1px solid;
+}
+
+.horario {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+  border-left: 1px solid;
 }
 
 .modal-backdrop {
@@ -62,4 +73,9 @@ body {
 
 .mat-card {
   margin: 0px !important;
+}
+
+.modal-reservar-cancelar .modal-content {
+  height: 106;
+  width: 240;
 }

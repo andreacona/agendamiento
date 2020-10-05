@@ -10,7 +10,9 @@
     <div class="calendar">
       <div class="row">
         <div style="width: 70px">
-          <h2>&nbsp;</h2>
+          <div class="horario">
+            <h2>&nbsp;</h2>
+          </div>
           <mwl-calendar-day-view
             [viewDate]="viewDate"
             [dayStartHour]="horaDeInicio"
@@ -95,7 +97,7 @@
           OK
         </button>
       </div> -->
-      <mat-card>
+      <mat-card class="resumen-reserva">
         <div class="header-card">
           <mat-card-tittle>Paciente: Valentina Escobar</mat-card-tittle>
           <br />
@@ -139,6 +141,23 @@
           </div>
         </mat-card-content>
         <mat-card-footer> </mat-card-footer>
+      </mat-card>
+    </ng-template>
+
+    <ng-template #modalReservarCancelar let-close="close">
+      <mat-card>
+        <ul>
+          <li class="PopUpReservaIcon">
+            <span class="material-icons"> event_available </span>
+            <div class="reservarHora">RESERVAR HORA</div>
+          </li>
+          <li class="PopUpReservaIcon">
+            <span class="material-icons"> cancel </span>
+            <div class="reservarHora">CANCELAR HORA</div>
+          </li>
+        </ul>
+
+        <!-- <mat-card-footer> </mat-card-footer> -->
       </mat-card>
     </ng-template>
 
