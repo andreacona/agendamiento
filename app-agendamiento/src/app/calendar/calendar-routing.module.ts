@@ -4,8 +4,8 @@ import { from } from 'rxjs';
 
 import { HomeComponent } from './home/home.component';
 import { VistaDiariaComponent } from './vista-diaria/vista-diaria.component';
-import { VistaSemanalComponent } from './vista-semanal/vista-semanal.component';
 import { ModalPopUpComponent } from './../reusable/modal-pop-up/modal-pop-up.component';
+import { AnularHorasComponent } from './anular-horas/anular-horas.component';
 
 const routes: Routes = [
   {
@@ -23,6 +23,10 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'dia',
+      },
+      {
+        path: 'anular-horas',
+        component: AnularHorasComponent,
       },
     ],
   },

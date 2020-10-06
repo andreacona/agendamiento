@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 //COMPONENTS
 import { AppComponent } from './app.component';
+import { AnularHorasComponent } from './calendar/anular-horas/anular-horas.component';
 
 //ANGULAR MATERIAL
 
@@ -36,6 +37,7 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { VistaDiariaComponent } from './calendar/vista-diaria/vista-diaria.component';
 import { ModalPopUpComponent } from './reusable/modal-pop-up/modal-pop-up.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
 
 /** FORMATEAR HORAS
  * necesita cambio en clases css: .cal-day-view .cal-hour-segment.cal-after-hour-start .cal-time (style.scss)
@@ -50,7 +52,7 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
 }
 
 @NgModule({
-  declarations: [AppComponent, VistaDiariaComponent],
+  declarations: [AppComponent, VistaDiariaComponent, AnularHorasComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -81,6 +83,7 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     MatDialogModule,
     MatIconModule,
     MatMenuModule,
+    MatInputModule,
   ],
 
   entryComponents: [ModalPopUpComponent],

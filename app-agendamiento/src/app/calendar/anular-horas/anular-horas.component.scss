@@ -1,0 +1,36 @@
+.container {
+  margin-left: 40px;
+  margin-top: 40px;
+  width: 400px;
+  border-right: 1px solid black;
+}
+
+h2 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+h3 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.busqueda-clientes {
+  width: 307px;
+  margin-bottom: 10px;
+}
+
+.btn-busqueda-rut {
+  display: flex;
+  padding-left: 230px;
+  margin-bottom: 30px;
+}
+
+.cancelarHorasPorEspecialista {
+  width: 315px;
+  height: 504px;
+  background-color: #f3f3f3;
+  padding: 20px 20px 20px 20px;
+}
