@@ -1,20 +1,26 @@
 <div class="menu">
-    <mat-toolbar>
-        <mat-toolbar-row>
-          <div class="logo">
-            <div class="image">
-              <img id="logo" src="/assets/images/quarto.png" >
-            </div>
-          </div>
-          <nav class="nav">
-          <a button mat-button routerLink="">Actividad</a>
-          <a button mat-button routerLink="/calendario">Calendario</a>
-          <a button mat-button routerLink="">Clientes</a>
-          <a button mat-button routerLink="">Administración</a>
-        </nav>
-      </mat-toolbar-row>
-    </mat-toolbar>    
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <div class="logo">
+        <div class="image">
+          <img id="logo" src="/assets/images/quarto.png" />
+        </div>
+      </div>
+      <nav class="nav">
+        <button mat-button>Actividad</button>
+
+        <button mat-button [matMenuTriggerFor]="belowMenu">Calendario</button>
+        <mat-menu #belowMenu="matMenu" yPosition="below">
+          <button routerLink="/calendario/dia" mat-menu-item>
+            Reservar hora
+          </button>
+          <button routerLink="/login" mat-menu-item>Cancelar hora</button>
+        </mat-menu>
+
+        <button mat-button>Clientes</button>
+
+        <button mat-button>Administración</button>
+      </nav>
+    </mat-toolbar-row>
+  </mat-toolbar>
 </div>
-
-
-
