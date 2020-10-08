@@ -38,6 +38,7 @@ import { VistaDiariaComponent } from './calendar/vista-diaria/vista-diaria.compo
 import { ModalPopUpComponent } from './reusable/modal-pop-up/modal-pop-up.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 /** FORMATEAR HORAS
  * necesita cambio en clases css: .cal-day-view .cal-hour-segment.cal-after-hour-start .cal-time (style.scss)
@@ -84,6 +85,7 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     MatIconModule,
     MatMenuModule,
     MatInputModule,
+    MatSelectModule,
   ],
 
   entryComponents: [ModalPopUpComponent],
