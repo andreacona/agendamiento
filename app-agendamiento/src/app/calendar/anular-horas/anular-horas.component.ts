@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./anular-horas.component.scss'],
 })
 export class AnularHorasComponent implements OnInit {
+  //aquii//
   constructor() {}
 
   ngOnInit(): void {}

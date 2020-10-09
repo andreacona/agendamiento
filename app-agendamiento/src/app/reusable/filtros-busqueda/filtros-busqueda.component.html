@@ -62,13 +62,10 @@
                   >Escribe la fecha dd-mm-aa</mat-label
                 >
                 <input matInput [matDatepicker]="picker1" />
+
                 <mat-calendar
                   [selected]="selectedDate"
                   (selectedChange)="selectedChange($event)"
-                  (yearSelected)="yearSelected()"
-                  (monthSelected)="monthSelected()"
-                  (_userSelection)="userSelection()"
-                  (cdkAutofill)="cdkAutofill()"
                 >
                 </mat-calendar>
                 <mat-datepicker #picker1></mat-datepicker>
@@ -120,10 +117,6 @@
                 <mat-calendar
                   [selected]="selectedDate"
                   (selectedChange)="selectedChange($event)"
-                  (yearSelected)="yearSelected()"
-                  (monthSelected)="monthSelected()"
-                  (_userSelection)="userSelection()"
-                  (cdkAutofill)="cdkAutofill()"
                 >
                 </mat-calendar>
                 <mat-datepicker #picker1></mat-datepicker>

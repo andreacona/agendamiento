@@ -3,11 +3,15 @@
     <app-header></app-header>
   </div>
   <div class="contain">
-    <app-filtros-busqueda></app-filtros-busqueda>
+    <app-filtros-busqueda
+      (propagar)="getDateFromFiltrosBusqueda($event)"
+    ></app-filtros-busqueda>
     <!-- <button (click)="cargarCitas()">Cargar horas</button> -->
 
     <!--CALENDARIO INICIO-->
     <div class="calendar">
+      <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
+
       <div class="row">
         <div style="width: 70px">
           <div class="horario">
@@ -36,11 +40,19 @@
               [refresh]="refresh"
               (eventClicked)="handleEvent('Clicked', $event.event, $event)"
               (eventTimesChanged)="eventTimesChanged($event)"
-              (hourSegmentClicked)="hourClicked(box.box.id, $event.date, $event)"
+              (hourSegmentClicked)="
+                hourClicked(box.box.id, $event.date, $event)
+              "
               [dayStartHour]="horaDeInicio"
               [hourSegments]="4"
               [dayEndHour]="20"
-              (beforeViewRender)="bloquearHorasEnCalendario($event,box.horasBloqueadas,box.horasDisponibles)"
+              (beforeViewRender)="
+                bloquearHorasEnCalendario(
+                  $event,
+                  box.horasBloqueadas,
+                  box.horasDisponibles
+                )
+              "
             ></mwl-calendar-day-view>
           </div>
         </div>
@@ -148,7 +160,7 @@
     <ng-template #modalReservarCancelar let-close="close">
       <mat-card>
         <ul>
-          <li class="PopUpReservaIcon">
+          <li class="PopUpReservaIcon" (click)="abrirModalReservaHora()">
             <span class="material-icons"> event_available </span>
             <div class="reservarHora">RESERVAR HORA</div>
           </li>
