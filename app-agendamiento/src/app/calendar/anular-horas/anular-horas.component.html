@@ -3,8 +3,14 @@
     <app-header></app-header>
   </div>
   <div class="container">
-    <h2>Anular horas</h2>
-    <h3>Buscar horas por clientes:</h3>
+    <div class="filtrosAnularBusqueda">
+      <h2>Anular horas</h2>
+      <div class="button-row">
+        <button mat-stroked-button>Paciente</button>
+        <button mat-stroked-button>Especialista</button>
+      </div>
+    </div>
+    <h3>Anular hora por:</h3>
     <mat-form-field class="busqueda-clientes" appearance="outline">
       <mat-label>Escribe el RUT del cliente</mat-label>
       <input matInput type="text" [(ngModel)]="value" />
