@@ -3,28 +3,81 @@
     <app-header></app-header>
   </div>
   <div class="container">
-    <h2>Anular horas</h2>
-    <h3>Buscar horas por clientes:</h3>
-    <mat-form-field class="busqueda-clientes" appearance="outline">
-      <mat-label>Escribe el RUT del cliente</mat-label>
-      <input matInput type="text" [(ngModel)]="value" />
-      <button
-        mat-button
-        *ngIf="value"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="value = ''"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <div class="btn-busqueda-rut">
-      <button mat-raised-button color="primary">Buscar</button>
+    <div class="filtrosAnularBusqueda">
+      <h2>Anular horas</h2>
+      <div class="button-row">
+        <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+          <mat-button-toggle
+            (change)="changeValueButton($event.value)"
+            value="filtroPaciente"
+            >Pacientes
+          </mat-button-toggle>
+          <mat-button-toggle
+            (change)="changeValueButton($event.value)"
+            value="filtroEspecialista"
+            >Especialista</mat-button-toggle
+          >
+        </mat-button-toggle-group>
+      </div>
+    </div>
+    <div *ngIf="valueButton == 'filtroPaciente'">
+      <h3>Anular hora por:</h3>
+      <mat-form-field class="busqueda-clientes" appearance="outline">
+        <mat-label>Escribe el RUT del cliente</mat-label>
+        <input matInput type="text" [(ngModel)]="value" />
+        <button
+          mat-button
+          *ngIf="value"
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          (click)="value = ''"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <div class="btn-busqueda-rut">
+        <button mat-raised-button color="primary">Buscar</button>
+      </div>
     </div>
 
-    <div class="cancelarHorasPorEspecialista">
+    <div *ngIf="valueButton == 'filtroEspecialista'">
       <h3>Anular hora por especialista:</h3>
+      <mat-form-field class="busquedaPorEspecialista" appearance="outline">
+        <mat-label style="font-size: 12px"> Seleccionar </mat-label>
+        <mat-select
+          (selectionChange)="changeValueEspecialista($event.selectedIndex)"
+        >
+          <mat-option
+            *ngFor="let especialista of toppingList"
+            [value]="especialista"
+          >
+            {{ especialista.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="rangoDeFechas">
+        <h3>Rango de fechas:</h3>
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha inicio de busqueda</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha fin busqueda</mat-label>
+          <input matInput [matDatepicker]="picker" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <router-outlet></router-outlet>

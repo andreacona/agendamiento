@@ -15,13 +15,14 @@ import {
   isSameMonth,
   addHours,
 } from 'date-fns';
-import {Subject} from 'rxjs';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
-  CalendarView, CalendarWeekViewBeforeRenderEvent,
+  CalendarView,
+  CalendarWeekViewBeforeRenderEvent,
 } from 'angular-calendar';
 
 import * as moment from 'moment';
@@ -132,7 +133,7 @@ export class VistaDiariaComponent {
   }
 
   /** Al clickear un dia en la vista del mes */
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -150,7 +151,9 @@ export class VistaDiariaComponent {
   hourClicked(boxId: number, fechaSeleccionada: Date, event: { date: Date, sourceEvent: MouseEvent }): void {
     const horaSeleccionadaDisponible: boolean = this.horaEstaDisponible(event);
     if (horaSeleccionadaDisponible) {
-      this.modal.open(this.modalReservarCancelar, {size: 'reservar-cancelar'});
+      this.modal.open(this.modalReservarCancelar, {
+        size: 'reservar-cancelar',
+      });
     }
   }
 
@@ -189,11 +192,11 @@ export class VistaDiariaComponent {
   cargarCitas(): void {
     this.citas = [
       {
-        box: {id: 1, nombre: 'Box 1'},
+        box: { id: 1, nombre: 'Box 1' },
         events: [
           {
-            start: moment('2020-10-09 08:00:00').toDate(),
-            end: moment('2020-10-09 08:45:00').toDate(),
+            start: moment('2020-10-09 10:00:00').toDate(),
+            end: moment('2020-10-09 10:45:00').toDate(),
             title: 'Control mensual - Juan Lopez',
             color: colors.red,
             meta: {
@@ -227,7 +230,7 @@ export class VistaDiariaComponent {
         horasDisponibles: ['08:00', '08:15', '08:30', '08:45', '09:00']
       },
       {
-        box: {id: 2, nombre: 'Box 2'},
+        box: { id: 2, nombre: 'Box 2' },
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -252,7 +255,7 @@ export class VistaDiariaComponent {
         horasDisponibles: ['8:0', '9:0']
       },
       {
-        box: {id: 3, nombre: 'Box 3'},
+        box: { id: 3, nombre: 'Box 3' },
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -270,7 +273,7 @@ export class VistaDiariaComponent {
         ],
       },
       {
-        box: {id: 4, nombre: 'Box 4'},
+        box: { id: 4, nombre: 'Box 4' },
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -289,7 +292,7 @@ export class VistaDiariaComponent {
         // horasBloqueadas: [8, 9, 10]
       },
       {
-        box: {id: 5, nombre: 'Box 5'},
+        box: { id: 5, nombre: 'Box 5' },
         events: [
           {
             start: moment('2020-09-24 10:00:00').toDate(),
@@ -328,19 +331,35 @@ export class VistaDiariaComponent {
 
           const horaMinutos = moment(segment.date).format('HH:mm').toString();
           /* BUSCAR HORAS DISPONIBLES */
-          if (horasDisponibles &&
-            horasDisponibles.filter(hra => hra === horaMinutos).length > 0) {
+          if (
+            horasDisponibles &&
+            horasDisponibles.filter((hra) => hra === horaMinutos).length > 0
+          ) {
             segment.cssClass = 'hora-disponible';
           }
-
         });
       });
     });
   }
 
-
-  private horaEstaDisponible(event: { date: Date, sourceEvent: MouseEvent }): boolean {
-    return (event.sourceEvent.target as Element).className.indexOf('hora-disponible') !== -1;
+  private horaEstaDisponible(event: {
+    date: Date;
+    sourceEvent: MouseEvent;
+  }): boolean {
+    return (
+      (event.sourceEvent.target as Element).className.indexOf(
+        'hora-disponible'
+      ) !== -1
+    );
   }
 
+  abrirModalReservaHora() {
+    console.log('Acaa');
+  }
+
+  getDateFromFiltrosBusqueda(fechaSeleccionada: Date) {
+    console.log('aqui');
+    console.log(fechaSeleccionada);
+    this.viewDate = fechaSeleccionada;
+  }
 }
