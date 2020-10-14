@@ -3,6 +3,7 @@
   margin-top: 40px;
   width: 400px;
   border-right: 1px solid black;
+  margin-right: 30px;
 }
 
 h2 {
@@ -45,4 +46,43 @@ h3 {
 
 mat-form-field {
   margin-right: 12px;
+}
+
+mat-card {
+  width: 243px;
+  height: 300px;
+  padding: 14px 14px 14px 14px;
+}
+
+mat-card-tittle {
+  padding-bottom: 10px;
+}
+
+mat-card-content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+ul {
+  padding: 0px;
+  display: inline-block;
+}
+
+ul li {
+  list-style: none;
+  margin-bottom: 5px;
+}
+
+.mat-header {
+  padding-left: 11px;
+}
+
+.box {
+  display: flex;
+}
+
+.anularHoras {
+  margin-top: 40px;
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
