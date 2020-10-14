@@ -1,29 +1,8 @@
-import {
-  Component,
-  OnInit,
-  ChangeDetectionStrategy,
-  ViewChild,
-  TemplateRef,
-} from '@angular/core';
-import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
-  isSameDay,
-  isSameMonth,
-  addHours,
-} from 'date-fns';
-import { Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {
-  CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
-  CalendarView,
-  CalendarWeekViewBeforeRenderEvent,
-} from 'angular-calendar';
+import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild,} from '@angular/core';
+import {addDays, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays,} from 'date-fns';
+import {Subject} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CalendarEvent, CalendarWeekViewBeforeRenderEvent,} from 'angular-calendar';
 
 import * as moment from 'moment';
 
@@ -133,7 +112,7 @@ export class VistaDiariaComponent {
   }
 
   /** Al clickear un dia en la vista del mes */
-  dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -192,11 +171,11 @@ export class VistaDiariaComponent {
   cargarCitas(): void {
     this.citas = [
       {
-        box: { id: 1, nombre: 'Box 1' },
+        box: {id: 1, nombre: 'Box 1'},
         events: [
           {
-            start: moment('2020-10-09 10:00:00').toDate(),
-            end: moment('2020-10-09 10:45:00').toDate(),
+            start: moment('2020-10-14 08:00:00').toDate(),
+            end: moment('2020-10-14 08:45:00').toDate(),
             title: 'Control mensual - Juan Lopez',
             color: colors.red,
             meta: {
@@ -210,9 +189,10 @@ export class VistaDiariaComponent {
           },
           {
             title: 'Control mensual - Juan Lopez',
-            start: moment('2020-10-09 10:00:00').toDate(),
-            end: moment('2020-10-09 10:45:00').toDate(),
+            start: moment('2020-10-14 10:00:00').toDate(),
+            end: moment('2020-10-14 10:45:00').toDate(),
             color: colors.gray,
+            cssClass: 'hora-bloqueada',
             meta: {
               isEventoReserva: false
             }
@@ -221,8 +201,8 @@ export class VistaDiariaComponent {
         horasBloqueadas: [
           {
             title: 'Control mensual - Juan Lopez',
-            start: moment('2020-10-09 10:00:00').toDate(),
-            end: moment('2020-10-09 10:45:00').toDate(),
+            start: moment('2020-10-10 10:00:00').toDate(),
+            end: moment('2020-10-10 10:45:00').toDate(),
             meta: {
               isEventoReserva: false
             }
@@ -230,7 +210,7 @@ export class VistaDiariaComponent {
         horasDisponibles: ['08:00', '08:15', '08:30', '08:45', '09:00']
       },
       {
-        box: { id: 2, nombre: 'Box 2' },
+        box: {id: 2, nombre: 'Box 2'},
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -255,7 +235,7 @@ export class VistaDiariaComponent {
         horasDisponibles: ['8:0', '9:0']
       },
       {
-        box: { id: 3, nombre: 'Box 3' },
+        box: {id: 3, nombre: 'Box 3'},
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -273,7 +253,7 @@ export class VistaDiariaComponent {
         ],
       },
       {
-        box: { id: 4, nombre: 'Box 4' },
+        box: {id: 4, nombre: 'Box 4'},
         events: [
           {
             start: moment('2020-09-24 09:00:00').toDate(),
@@ -292,7 +272,7 @@ export class VistaDiariaComponent {
         // horasBloqueadas: [8, 9, 10]
       },
       {
-        box: { id: 5, nombre: 'Box 5' },
+        box: {id: 5, nombre: 'Box 5'},
         events: [
           {
             start: moment('2020-09-24 10:00:00').toDate(),
@@ -322,9 +302,9 @@ export class VistaDiariaComponent {
 
           const segmentDate = segment.date;
           /* BUSCAR HORAS BLOQUEADAS */
+          console.log(eventosHorasBloqueadas);
           if (eventosHorasBloqueadas && eventosHorasBloqueadas.filter(
-            eventoHoraBloqueada =>
-              segmentDate >= eventoHoraBloqueada.start && segmentDate < eventoHoraBloqueada.end
+            eventoHoraBloqueada => segmentDate >= eventoHoraBloqueada.start && segmentDate < eventoHoraBloqueada.end
           ).length > 0) {
             segment.cssClass = 'hora-bloqueada';
           }
@@ -353,11 +333,11 @@ export class VistaDiariaComponent {
     );
   }
 
-  abrirModalReservaHora() {
+  abrirModalReservaHora(): void {
     console.log('Acaa');
   }
 
-  getDateFromFiltrosBusqueda(fechaSeleccionada: Date) {
+  getDateFromFiltrosBusqueda(fechaSeleccionada: Date): void {
     console.log('aqui');
     console.log(fechaSeleccionada);
     this.viewDate = fechaSeleccionada;
