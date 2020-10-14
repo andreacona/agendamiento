@@ -107,3 +107,7 @@ body {
 .cal-week-view .cal-time {
   color: black;
 }
+
+.hora-bloqueada .cal-week-view .cal-event {
+  background-color: grey !important;
+}
