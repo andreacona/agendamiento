@@ -40,6 +40,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { HttpClientModule } from '@angular/common/http';
 
 /** FORMATEAR HORAS
  * necesita cambio en clases css: .cal-day-view .cal-hour-segment.cal-after-hour-start .cal-time (style.scss)
@@ -88,6 +89,7 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     MatInputModule,
     MatSelectModule,
     MatButtonToggleModule,
+    HttpClientModule
   ],
 
   entryComponents: [ModalPopUpComponent],

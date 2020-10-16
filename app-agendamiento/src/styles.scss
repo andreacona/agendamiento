@@ -44,9 +44,9 @@ body {
 /* ESTILOS CALENDARIO*/
 .calendar {
   width: 70%;
-  padding-top: 102px;
+  padding-top: 59px;
   padding-left: 30px;
-  padding-right: 10px;
+  padding-right: 60px;
   padding-bottom: 60px;
   margin-left: 40px;
 }
@@ -81,21 +81,21 @@ body {
   width: 240;
 }
 
-
 /* HORAS BLOQUEADAS */
-.cal-day-segment-disabled, .cal-day-segment-disabled:hover {
+.cal-day-segment-disabled,
+.cal-day-segment-disabled:hover {
   background-color: grey !important;
   cursor: not-allowed;
 }
 
 .hora-bloqueada {
   cursor: not-allowed !important;
-  background-color: #DADADA !important;
+  background-color: #dadada !important;
 }
 
 .hora-disponible {
   cursor: pointer !important;
-  background-color: #FCECB4 !important;
+  background-color: #fcecb4 !important;
 }
 
 /* UTILIZADO PARA MOSTRAR SEGMENTOS DE HORAS */

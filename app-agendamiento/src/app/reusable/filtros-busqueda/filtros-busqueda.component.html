@@ -33,11 +33,11 @@
                 Seleccionar especialista
               </mat-label>
               <mat-select
-                (selectionChange)="changeValueProfesion($event.selectedIndex)"
+                (selectionChange)="changeValueProfesion($event.value)"
               >
                 <mat-option
                   *ngFor="let especialista of especialistas"
-                  [value]="especialista.id"
+                  [value]="especialista.idEspecialista"
                 >
                   {{ especialista.nombre }}
                 </mat-option>
@@ -48,9 +48,9 @@
               <h4>Servicios:</h4>
               <mat-form-field appearance="outline">
                 <mat-select>
-                  <mat-option *ngFor="let profesion of professions">{{
-                    profesion.nombre
-                  }}</mat-option>
+                  <mat-option *ngFor="let servicio of serviciosEspecialista">
+                    {{ servicio.nombre }}</mat-option
+                  >
                 </mat-select>
               </mat-form-field>
             </div>
@@ -79,10 +79,12 @@
             <h4>Especialidad</h4>
             <mat-form-field appearance="outline">
               <mat-label> Seleccionar especialidad </mat-label>
-              <mat-select>
+              <mat-select
+                (selectionChange)="changeValueEspecialidad($event.value)"
+              >
                 <mat-option
                   *ngFor="let especialidad of especialidades"
-                  [value]="especialidad.id"
+                  [value]="especialidad.idEspecialidad"
                 >
                   {{ especialidad.nombre }}
                 </mat-option>
@@ -90,18 +92,25 @@
             </mat-form-field>
 
             <div>
-              <h4>Profesional</h4>
+              <h4>Servicio</h4>
               <mat-form-field appearance="outline">
+                <mat-label> Seleccionar servicio </mat-label>
                 <mat-select>
-                  <mat-option *ngFor="let food of foods" [value]="food.value">
-                    {{ food.viewValue }}
+                  <mat-option
+                    *ngFor="let servicio of serviciosEspecialidad"
+                    [value]="servicio.idServicio"
+                  >
+                    {{ servicio.nombre }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
+              <mat-checkbox class="convenios-margin"
+                >Servicio a domicilio
+              </mat-checkbox>
             </div>
 
             <div>
-              <h4>Convenio</h4>
+              <h4>Convenio de salud:</h4>
               <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
               <br />
               <mat-checkbox class="convenios-margin">Particular</mat-checkbox>

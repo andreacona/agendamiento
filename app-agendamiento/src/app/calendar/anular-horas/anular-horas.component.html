@@ -22,7 +22,7 @@
         </div>
       </div>
       <div *ngIf="valueButton == 'filtroPaciente'">
-        <h3>Anular hora por:</h3>
+        <h3>Anular hora por rut:</h3>
         <mat-form-field class="busqueda-clientes" appearance="outline">
           <mat-label>Escribe el RUT del cliente</mat-label>
           <input matInput type="text" [(ngModel)]="value" />
@@ -46,12 +46,10 @@
         <h3>Anular hora por especialista:</h3>
         <mat-form-field class="busquedaPorEspecialista" appearance="outline">
           <mat-label style="font-size: 12px"> Seleccionar </mat-label>
-          <mat-select
-            (selectionChange)="changeValueEspecialista($event.selectedIndex)"
-          >
+          <mat-select (selectionChange)="changeValueProfesion($event.value)">
             <mat-option
-              *ngFor="let especialista of toppingList"
-              [value]="especialista"
+              *ngFor="let especialista of especialistas"
+              [value]="especialista.idEspecialista"
             >
               {{ especialista.nombre }}
             </mat-option>
@@ -61,20 +59,20 @@
           <h3>Rango de fechas:</h3>
           <mat-form-field appearance="outline">
             <mat-label>Fecha inicio de busqueda</mat-label>
-            <input matInput [matDatepicker]="picker" />
+            <input matInput [matDatepicker]="fechaInicio" />
             <mat-datepicker-toggle
               matSuffix
-              [for]="picker"
+              [for]="fechaInicio"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Fecha fin de busqueda</mat-label>
-            <input matInput [matDatepicker]="picker" />
+            <input matInput [matDatepicker]="fechaFin" />
             <mat-datepicker-toggle
               matSuffix
-              [for]="picker"
+              [for]="fechaFin"
             ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
@@ -113,7 +111,7 @@
             </li>
           </ul>
           <div>
-            <button mat-raised-button>Anular</button>
+            <button mat-raised-button style="margin-right: 5px">Anular</button>
             <button mat-raised-button color="primary">Reagendar</button>
           </div>
         </mat-card-content>
@@ -151,7 +149,7 @@
             </li>
           </ul>
           <div>
-            <button mat-raised-button>Anular</button>
+            <button mat-raised-button style="margin-right: 5px">Anular</button>
             <button mat-raised-button color="primary">Reagendar</button>
           </div>
         </mat-card-content>
@@ -189,7 +187,7 @@
             </li>
           </ul>
           <div>
-            <button mat-raised-button>Anular</button>
+            <button mat-raised-button style="margin-right: 5px">Anular</button>
             <button mat-raised-button color="primary">Reagendar</button>
           </div>
         </mat-card-content>

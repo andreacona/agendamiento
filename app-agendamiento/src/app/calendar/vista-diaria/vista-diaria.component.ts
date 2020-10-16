@@ -302,7 +302,6 @@ export class VistaDiariaComponent {
 
           const segmentDate = segment.date;
           /* BUSCAR HORAS BLOQUEADAS */
-          console.log(eventosHorasBloqueadas);
           if (eventosHorasBloqueadas && eventosHorasBloqueadas.filter(
             eventoHoraBloqueada => segmentDate >= eventoHoraBloqueada.start && segmentDate < eventoHoraBloqueada.end
           ).length > 0) {

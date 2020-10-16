@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { EspecialistasService } from '../../service/especialistas.service';
+import { Especialista } from '../../models/especialista';
 
 @Component({
   selector: 'app-anular-horas',
@@ -8,27 +10,29 @@ import { FormControl } from '@angular/forms';
 })
 export class AnularHorasComponent implements OnInit {
   //aquii//
-  toppings = new FormControl();
-  valueButton = 'filtroPaciente';
 
-  toppingList: string[] = [
-    'Extra cheese',
-    'Mushroom',
-    'Onion',
-    'Pepperoni',
-    'Sausage',
-    'Tomato',
-  ];
+  especialistas: Especialista[];
 
-  constructor() {}
+  constructor(private especialistasService: EspecialistasService) {}
 
-  ngOnInit(): void {}
-  value = 'Búsqueda por RUT';
+  ngOnInit(): void {
+    this.getAllEspecialistas();
+  }
 
   changeValueButton(value: string) {
-    console.log(value);
     this.valueButton = value;
   }
 
-  changeValueEspecialista(value: number) {}
+  userSelection() {}
+
+  getAllEspecialistas() {
+    this.especialistasService.getAll().subscribe(
+      (especialistas) => {
+        this.especialistas = especialistas;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 }
