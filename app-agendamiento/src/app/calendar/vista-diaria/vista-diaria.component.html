@@ -4,15 +4,13 @@
   </div>
   <div class="contain">
     <app-filtros-busqueda
-      (propagar)="getDateFromFiltrosBusqueda($event)"
-    ></app-filtros-busqueda>
-    <!-- <button (click)="cargarCitas()">Cargar horas</button> -->
+      (changeFiltersValues)="filterChanged($event)"></app-filtros-busqueda>
 
     <!--CALENDARIO INICIO-->
     <div class="calendar">
       <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
 
-      <div class="row">
+      <div class="row" *ngIf="citas.length > 0">
         <div style="width: 70px">
           <div class="horario">
             <h2>&nbsp;</h2>
@@ -29,17 +27,16 @@
         <div class="row m-0 box">
           <div
             [style]="{ width: 100 / citas.length + '%', textAlign: 'center' }"
-            *ngFor="let box of citas"
-          >
+            *ngFor="let box of citas">
             <div class="nombre-box">
               <h2>{{ box.box.nombre }}</h2>
             </div>
             <mwl-calendar-day-view
               [viewDate]="viewDate"
-              [events]="box.events"
+              [events]="box.reservas"
               [refresh]="refresh"
               (eventClicked)="handleEvent( $event.event, $event)"
-              (hourSegmentClicked)="hourClicked(box.box.id, $event.date, $event)"
+              (hourSegmentClicked)="hourClicked(box.box.idBox, $event.date, $event)"
               [dayStartHour]="horaDeInicio"
               [hourSegments]="4"
               [dayEndHour]="20"
@@ -110,9 +107,10 @@
       <mat-card class="resumen-reserva">
         <div class="header-card">
           <mat-card-tittle>Paciente: Valentina Escobar</mat-card-tittle>
-          <br />
+          <br/>
           <mat-card-subtittle
-            >Especialista: Yolanda Sepulveda</mat-card-subtittle
+          >Especialista: Yolanda Sepulveda
+          </mat-card-subtittle
           >
           <!-- <button
             mat-icon-button
@@ -150,7 +148,7 @@
             <button mat-raised-button>Editar</button>
           </div>
         </mat-card-content>
-        <mat-card-footer> </mat-card-footer>
+        <mat-card-footer></mat-card-footer>
       </mat-card>
     </ng-template>
 

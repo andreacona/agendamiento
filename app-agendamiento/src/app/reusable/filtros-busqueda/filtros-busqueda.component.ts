@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { EspecialistasService } from '../../service/especialistas.service';
-import { EspecialidadService } from '../../service/especialidad.service';
-import { ServiciosService } from '../../service/servicios.service';
-import { Especialista } from '../../models/especialista';
-import { Servicio } from '../../models/servicio';
-import { Especialidad } from '../../models/especialidad';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {EspecialistasService} from '../../service/especialistas.service';
+import {EspecialidadService} from '../../service/especialidad.service';
+import {ServiciosService} from '../../service/servicios.service';
+import {Especialista} from '../../models/especialista';
+import {Servicio} from '../../models/servicio';
+import {Especialidad} from '../../models/especialidad';
+import {FiltrosCalendario} from '../../models/filtros-calendario';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-filtros-busqueda',
@@ -12,43 +14,6 @@ import { Especialidad } from '../../models/especialidad';
   styleUrls: ['./filtros-busqueda.component.scss'],
 })
 export class FiltrosBusquedaComponent implements OnInit {
-  // especialistas: any[] = [
-  //   {
-  //     id: 1,
-  //     nombre: 'Claudia Contreras Ortega',
-  //     profesion: [{ nombre: 'Obstetricia', id: 1 }],
-  //   },
-  //   {
-  //     id: 2,
-  //     nombre: 'Constanza Domingues Pino',
-  //     profesion: [{ nombre: 'Nutricion', id: 2 }],
-  //   },
-  //   {
-  //     id: 3,
-  //     nombre: 'Freddy Torres Jimenez',
-  //     profesion: [{ nombre: 'Medicina General', id: 3 }],
-  //   },
-  //   {
-  //     id: 4,
-  //     nombre: 'Giselle Gacitua Canales',
-  //     profesion: [{ nombre: 'Fonoaudiologia', id: 4 }],
-  //   },
-  //   {
-  //     id: 5,
-  //     nombre: 'Jael Vera Mora',
-  //     profesion: [{ nombre: 'Terapia Ocupacional', id: 5 }],
-  //   },
-  //   {
-  //     id: 6,
-  //     nombre: 'Saray Salinas Sepulveda',
-  //     profesion: [{ nombre: 'Psicología integral', id: 6 }],
-  //   },
-  //   {
-  //     id: 7,
-  //     nombre: 'Yolanda Sepulveda Cortez',
-  //     profesion: [{ tipoProfesion: 'kinesiologia', id: 7 }],
-  //   },
-  // ];
 
   especialistas: Especialista[];
 
@@ -58,11 +23,11 @@ export class FiltrosBusquedaComponent implements OnInit {
   especialidades: Especialidad[];
 
   @Output()
-  propagar = new EventEmitter<Date>();
+  changeFiltersValues = new EventEmitter<FiltrosCalendario>();
+
+  filtrosCalendario: FiltrosCalendario;
 
   valueButton = 'filtroNombre';
-  valueProfesion = 'especialista.id';
-  professions = [];
 
   selectedDate: Date = new Date();
 
@@ -72,7 +37,11 @@ export class FiltrosBusquedaComponent implements OnInit {
     private especialistasService: EspecialistasService,
     private especialidadesService: EspecialidadService,
     private servicioService: ServiciosService
-  ) {}
+  ) {
+    this.filtrosCalendario = new FiltrosCalendario();
+    this.filtrosCalendario.isServicioADomicilio = false;
+    this.filtrosCalendario.idLocal = 1;
+  }
 
   ngOnInit(): void {
     this.getAllEspecialistas();
@@ -80,28 +49,43 @@ export class FiltrosBusquedaComponent implements OnInit {
     this.getAllEspecialidades();
   }
 
-  changeValueButton(value: string) {
+  changeValueButton(value: string): void {
     this.valueButton = value;
   }
 
-  changeValueProfesion(idEspecialista: number) {
-    console.log(idEspecialista);
+  changeValueEspecialista(idEspecialista: number): void {
+    this.filtrosCalendario.idEspecialista = idEspecialista;
+    this.filtrosCalendario.idServicio = null;
+    this.emitChanges();
     this.getServiciosByEspecialista(idEspecialista);
   }
 
-  changeValueEspecialidad(idEspecialidad: number) {
+  changeValueEspecialidad(idEspecialidad: number): void {
     console.log(idEspecialidad);
     this.getServiciosByEspecialidad(idEspecialidad);
   }
 
-  selectedChange(event) {
-    this.selectedDate = event;
-    this.propagar.emit(this.selectedDate);
+  changeValueServicio(idEspecialidad: number): void {
+    console.log(idEspecialidad);
+    this.getServiciosByEspecialidad(idEspecialidad);
   }
 
-  userSelection() {}
+  changeValueFechaSeleccionada(fechaSeleccionada: Date): void {
+    console.log(fechaSeleccionada);
 
-  getAllEspecialistas() {
+    this.filtrosCalendario.fechaSeleccionada = moment(fechaSeleccionada).format('YYYY-MM-DD');
+    this.emitChanges();
+
+  }
+
+  emitChanges(): void {
+    this.changeFiltersValues.emit(this.filtrosCalendario);
+  }
+
+  userSelection(): void {
+  }
+
+  getAllEspecialistas(): void {
     this.especialistasService.getAll().subscribe(
       (especialistas) => {
         this.especialistas = especialistas;
@@ -112,7 +96,7 @@ export class FiltrosBusquedaComponent implements OnInit {
     );
   }
 
-  getAllEspecialidades() {
+  getAllEspecialidades(): void {
     this.especialidadesService.getAll().subscribe(
       (especialidades) => {
         this.especialidades = especialidades;
@@ -124,7 +108,7 @@ export class FiltrosBusquedaComponent implements OnInit {
     );
   }
 
-  getServiciosByEspecialista(idEspecialista: number) {
+  getServiciosByEspecialista(idEspecialista: number): void {
     this.servicioService
       .getServiciosByEspecialista(idEspecialista)
       .subscribe((servicios) => {
@@ -132,9 +116,8 @@ export class FiltrosBusquedaComponent implements OnInit {
       });
   }
 
-  ///aquiii incluir el método de serv
 
-  getServiciosByEspecialidad(idEspecialidad: number) {
+  getServiciosByEspecialidad(idEspecialidad: number): void {
     this.servicioService
       .getServiciosByEspecialidad(idEspecialidad)
       .subscribe((servicios) => {
@@ -142,4 +125,5 @@ export class FiltrosBusquedaComponent implements OnInit {
         console.log(servicios);
       });
   }
+
 }

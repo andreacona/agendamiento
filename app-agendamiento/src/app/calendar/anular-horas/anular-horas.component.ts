@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { EspecialistasService } from '../../service/especialistas.service';
-import { Especialista } from '../../models/especialista';
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {EspecialistasService} from '../../service/especialistas.service';
+import {Especialista} from '../../models/especialista';
 
 @Component({
   selector: 'app-anular-horas',
@@ -9,23 +9,22 @@ import { Especialista } from '../../models/especialista';
   styleUrls: ['./anular-horas.component.scss'],
 })
 export class AnularHorasComponent implements OnInit {
-  //aquii//
-
   especialistas: Especialista[];
+  valueButton: string;
 
-  constructor(private especialistasService: EspecialistasService) {}
+  constructor(private especialistasService: EspecialistasService) {
+  }
 
   ngOnInit(): void {
     this.getAllEspecialistas();
   }
 
-  changeValueButton(value: string) {
+  changeValueButton(value: string): void {
     this.valueButton = value;
   }
 
-  userSelection() {}
 
-  getAllEspecialistas() {
+  getAllEspecialistas(): void {
     this.especialistasService.getAll().subscribe(
       (especialistas) => {
         this.especialistas = especialistas;

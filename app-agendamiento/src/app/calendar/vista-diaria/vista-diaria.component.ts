@@ -1,10 +1,13 @@
-import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild,} from '@angular/core';
-import {addDays, endOfDay, endOfMonth, isSameDay, isSameMonth, startOfDay, subDays,} from 'date-fns';
+import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild} from '@angular/core';
+import {isSameDay, isSameMonth,} from 'date-fns';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarWeekViewBeforeRenderEvent,} from 'angular-calendar';
+import {CalendarEvent, CalendarWeekViewBeforeRenderEvent} from 'angular-calendar';
 
 import * as moment from 'moment';
+import {ReservasCalendario} from '../../models/reservas-calendario';
+import {FiltrosCalendario} from '../../models/filtros-calendario';
+import {ReservasCalendarioService} from '../../service/reservas-calendario.service';
 
 const colors: any = {
   red: {
@@ -24,8 +27,8 @@ const colors: any = {
   styleUrls: ['./vista-diaria.component.scss'],
 })
 export class VistaDiariaComponent {
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
+  @ViewChild('modalContent') modalContent: TemplateRef<any>;
   @ViewChild('modalReservarCancelar') modalReservarCancelar: TemplateRef<any>;
 
   /** Tipo de vista, puede ser month, week o day, se cambia en el HTML (linea 81) */
@@ -42,73 +45,20 @@ export class VistaDiariaComponent {
   /** Se utiliza para actualizar los eventos utilizando refresh.next() */
   refresh: Subject<any> = new Subject();
 
-  /** Eventos */
-  events: CalendarEvent[] = [
-    {
-      start: moment('2020-09-09 08:00:00').toDate(),
-      end: moment('2020-09-09 08:45:00').toDate(),
-      title: 'Control mensual - Juan Lopez',
-      color: colors.red,
-      meta: {
-        profesional: 'Freddy Torres Jimenez',
-        cliente: 'Juan Lopez',
-        especialidadProfesiona: 'Dermatología',
-        box: 1,
-        tipoDeCita: 'Control mensual',
-      },
-    },
-    {
-      start: startOfDay(new Date()),
-      title: 'An event with no end date',
-      color: colors.yellow,
-    },
-    {
-      start: subDays(endOfMonth(new Date()), 3),
-      end: addDays(endOfMonth(new Date()), 3),
-      title: 'A long event that spans 2 months',
-      color: colors.blue,
-    },
-    {
-      // start: addHours(startOfDay(new Date()), 2),
-      // end: new Date(),
-      start: moment('2020-09-08 08:45:00').toDate(),
-      end: moment('2020-09-08 09:15:00').toDate(),
-      title: 'Examen de sangre - Elizabeth Vergara',
-      color: colors.yellow,
-      resizable: {
-        beforeStart: true,
-        afterEnd: false,
-      },
-      draggable: true,
-      meta: {
-        profesional: 'Yolanda Sepulveda Cortez',
-        cliente: 'Elizabeth Vergara',
-        especialidadProfesiona: 'Dermatología',
-        box: 1,
-        tipoDeCita: 'Control mensual',
-      },
-    },
-  ];
-
-  citas: {
-    box: { id: number; nombre: string };
-    events: CalendarEvent[];
-    horasBloqueadas?: CalendarEvent[];
-    horasDisponibles?: string[]
-  }[] = [];
+  citas: ReservasCalendario[] = [];
 
   /** Utilizado en la vista por mes para mostrar eventos de un dia seleccionado */
   activeDayIsOpen = false;
 
   horaDeInicio: number;
-  saludo: string;
 
-  constructor(private modal: NgbModal) {
+  constructor(private modal: NgbModal,
+              private reservasCalendarioService: ReservasCalendarioService) {
     this.horaDeInicio = 8;
   }
 
   ngOnInit(): void {
-    this.cargarCitas();
+    // this.cargarCitas();
   }
 
   /** Al clickear un dia en la vista del mes */
@@ -149,147 +99,24 @@ export class VistaDiariaComponent {
     }
   }
 
-  addEvent(): void {
-    this.events.push({
-      title: 'New event',
-      start: startOfDay(new Date()),
-      end: endOfDay(new Date()),
-      color: colors.red,
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true,
-      },
-    });
-    this.refresh.next();
-  }
-
-  actualizarEnventosEnCalendario(): void {
-    this.refresh.next();
-  }
-
-  cargarCitas(): void {
-    this.citas = [
-      {
-        box: {id: 1, nombre: 'Box 1'},
-        events: [
-          {
-            start: moment('2020-10-14 08:00:00').toDate(),
-            end: moment('2020-10-14 08:45:00').toDate(),
-            title: 'Control mensual - Juan Lopez',
-            color: colors.red,
-            meta: {
-              profesional: 'Freddy Torres Jimenez',
-              cliente: 'Juan Lopez',
-              especialidadProfesiona: 'Dermatología',
-              box: 1,
-              tipoDeCita: 'Control mensual',
-              isEventoReserva: true
-            },
-          },
-          {
-            title: 'Control mensual - Juan Lopez',
-            start: moment('2020-10-14 10:00:00').toDate(),
-            end: moment('2020-10-14 10:45:00').toDate(),
-            color: colors.gray,
-            cssClass: 'hora-bloqueada',
-            meta: {
-              isEventoReserva: false
-            }
+  cargarCitas(filtros: FiltrosCalendario): void {
+    this.citas = [];
+    this.reservasCalendarioService.getReservasCalendarioByFilters(filtros).subscribe(
+      reservasCalendario => {
+        for (const reservaCalendario of reservasCalendario) {
+          for (const reserva of reservaCalendario.reservas) {
+            reserva.start = new Date(reserva.start);
+            reserva.end = new Date(reserva.end);
           }
-        ],
-        horasBloqueadas: [
-          {
-            title: 'Control mensual - Juan Lopez',
-            start: moment('2020-10-10 10:00:00').toDate(),
-            end: moment('2020-10-10 10:45:00').toDate(),
-            meta: {
-              isEventoReserva: false
-            }
-          }],
-        horasDisponibles: ['08:00', '08:15', '08:30', '08:45', '09:00']
-      },
-      {
-        box: {id: 2, nombre: 'Box 2'},
-        events: [
-          {
-            start: moment('2020-09-24 09:00:00').toDate(),
-            end: moment('2020-09-24 09:30:00').toDate(),
-            title: 'Control - Pedro Lopez',
-            color: colors.red,
-            meta: {
-              profesional: 'Freddy Torres Jimenez',
-              cliente: 'Juan Lopez',
-              especialidadProfesiona: 'Dermatología',
-              box: 1,
-              tipoDeCita: 'Control mensual',
-              isEventoReserva: true
-            },
-          },
-        ],
-        horasBloqueadas: [{
-          title: 'Control mensual - Juan Lopez',
-          start: moment('2020-10-05 10:00:00').toDate(),
-          end: moment('2020-10-05 10:45:00').toDate()
-        }],
-        horasDisponibles: ['8:0', '9:0']
-      },
-      {
-        box: {id: 3, nombre: 'Box 3'},
-        events: [
-          {
-            start: moment('2020-09-24 09:00:00').toDate(),
-            end: moment('2020-09-24 09:30:00').toDate(),
-            title: 'Control - Pedro Lopez',
-            color: colors.red,
-            meta: {
-              profesional: 'Freddy Torres Jimenez',
-              cliente: 'Juan Lopez',
-              especialidadProfesiona: 'Dermatología',
-              box: 1,
-              tipoDeCita: 'Control mensual',
-            },
-          },
-        ],
-      },
-      {
-        box: {id: 4, nombre: 'Box 4'},
-        events: [
-          {
-            start: moment('2020-09-24 09:00:00').toDate(),
-            end: moment('2020-09-24 09:30:00').toDate(),
-            title: 'Control - Pedro Lopez',
-            color: colors.red,
-            meta: {
-              profesional: 'Freddy Torres Jimenez',
-              cliente: 'Juan Lopez',
-              especialidadProfesiona: 'Dermatología',
-              box: 1,
-              tipoDeCita: 'Control mensual',
-            },
-          },
-        ],
-        // horasBloqueadas: [8, 9, 10]
-      },
-      {
-        box: {id: 5, nombre: 'Box 5'},
-        events: [
-          {
-            start: moment('2020-09-24 10:00:00').toDate(),
-            end: moment('2020-09-24 12:30:00').toDate(),
-            title: 'Control - Pedro Lopez',
-            color: colors.red,
-            meta: {
-              profesional: 'Freddy Torres Jimenez',
-              cliente: 'Juan Lopez',
-              especialidadProfesiona: 'Dermatología',
-              box: 1,
-              tipoDeCita: 'Control mensual',
-            },
-          },
-        ],
-      },
-    ];
+        }
+
+        this.citas = reservasCalendario;
+        console.log(this.citas);
+        console.log(this.citas.length);
+        this.refresh.next();
+
+      }
+    );
   }
 
 
@@ -308,7 +135,7 @@ export class VistaDiariaComponent {
             segment.cssClass = 'hora-bloqueada';
           }
 
-          const horaMinutos = moment(segment.date).format('HH:mm').toString();
+          const horaMinutos = moment(segment.date).format('HH:mm:00').toString();
           /* BUSCAR HORAS DISPONIBLES */
           if (
             horasDisponibles &&
@@ -321,24 +148,22 @@ export class VistaDiariaComponent {
     });
   }
 
-  private horaEstaDisponible(event: {
-    date: Date;
-    sourceEvent: MouseEvent;
-  }): boolean {
-    return (
-      (event.sourceEvent.target as Element).className.indexOf(
-        'hora-disponible'
-      ) !== -1
-    );
+  private horaEstaDisponible(event: { date: Date, sourceEvent: MouseEvent }): boolean {
+    const indexClassHoraDisponible = (event.sourceEvent.target as Element).className.indexOf('hora-disponible');
+    return indexClassHoraDisponible !== -1;
   }
 
   abrirModalReservaHora(): void {
     console.log('Acaa');
   }
 
-  getDateFromFiltrosBusqueda(fechaSeleccionada: Date): void {
+  filterChanged(filtros: FiltrosCalendario): void {
     console.log('aqui');
-    console.log(fechaSeleccionada);
-    this.viewDate = fechaSeleccionada;
+    this.viewDate = moment(filtros.fechaSeleccionada).toDate();
+    console.log(this.viewDate);
+    this.cargarCitas(filtros);
+
+    // console.log(fechaSeleccionada);
+    // this.viewDate = fechaSeleccionada;
   }
 }
