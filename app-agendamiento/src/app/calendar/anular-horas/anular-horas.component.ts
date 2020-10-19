@@ -9,9 +9,12 @@ import { Especialista } from '../../models/especialista';
   styleUrls: ['./anular-horas.component.scss'],
 })
 export class AnularHorasComponent implements OnInit {
-  //aquii//
-
   especialistas: Especialista[];
+  valueButton: string = 'filtroPaciente';
+  fechaDeInicio = new FormControl(new Date());
+  fechaDeFin = new FormControl(new Date());
+
+  serializedDate = new FormControl(new Date().toISOString());
 
   constructor(private especialistasService: EspecialistasService) {}
 
@@ -35,4 +38,11 @@ export class AnularHorasComponent implements OnInit {
       }
     );
   }
+
+  console() {
+    console.log('Fecha inicio: ' + this.fechaDeInicio.value);
+    console.log('Fecha fin: ' + this.fechaDeFin.value);
+  }
+
+  otroConsole2() {}
 }
