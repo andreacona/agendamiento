@@ -10,10 +10,13 @@ import {Especialista} from '../../models/especialista';
 })
 export class AnularHorasComponent implements OnInit {
   especialistas: Especialista[];
-  valueButton: string;
+  valueButton: string = 'filtroPaciente';
+  fechaDeInicio = new FormControl(new Date());
+  fechaDeFin = new FormControl(new Date());
 
-  constructor(private especialistasService: EspecialistasService) {
-  }
+  serializedDate = new FormControl(new Date().toISOString());
+
+  constructor(private especialistasService: EspecialistasService) {}
 
   ngOnInit(): void {
     this.getAllEspecialistas();
@@ -34,4 +37,11 @@ export class AnularHorasComponent implements OnInit {
       }
     );
   }
+
+  console() {
+    console.log('Fecha inicio: ' + this.fechaDeInicio.value);
+    console.log('Fecha fin: ' + this.fechaDeFin.value);
+  }
+
+  otroConsole2() {}
 }

@@ -31,7 +31,7 @@ import {
 } from 'angular-calendar';
 import * as moment from 'moment';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { VistaDiariaComponent } from './calendar/vista-diaria/vista-diaria.component';
@@ -89,7 +89,8 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     MatInputModule,
     MatSelectModule,
     MatButtonToggleModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
 
   entryComponents: [ModalPopUpComponent],

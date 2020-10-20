@@ -57,26 +57,37 @@
         </mat-form-field>
         <div class="rangoDeFechas">
           <h3>Rango de fechas:</h3>
+          <!-- -->
           <mat-form-field appearance="outline">
             <mat-label>Fecha inicio de busqueda</mat-label>
-            <input matInput [matDatepicker]="fechaInicio" />
+            <input
+              matInput
+              [matDatepicker]="fechaInicio"
+              [formControl]="fechaDeInicio"
+            />
             <mat-datepicker-toggle
               matSuffix
               [for]="fechaInicio"
             ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #fechaInicio></mat-datepicker>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Fecha fin de busqueda</mat-label>
-            <input matInput [matDatepicker]="fechaFin" />
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              [formControl]="fechaDe < Fin"
+            />
             <mat-datepicker-toggle
               matSuffix
-              [for]="fechaFin"
+              [for]="picker2"
             ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>
+        <button (click)="console()">console</button>
+        <button (click)="otroConsole2()">console 2</button>
       </div>
     </div>
     <div class="anularHoras">
