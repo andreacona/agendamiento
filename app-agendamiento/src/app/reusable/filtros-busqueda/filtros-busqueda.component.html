@@ -18,9 +18,9 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
 
-      <form>
+      <form style="margin-top: 30px">
         <div>
-          <div *ngIf="valueButton == 'filtroNombre'">
+          <div *ngIf="valueButton === 'filtroNombre'">
             <!--            <h4>Nombre Especialista</h4>-->
             <mat-form-field
               class="busquedaPorEspecialista"
@@ -70,7 +70,7 @@
             -->
           </div>
 
-          <div *ngIf="valueButton == 'filtroEspecialidad'">
+          <div *ngIf="valueButton === 'filtroEspecialidad'">
             <!--            <h4>Especialidad</h4>-->
             <mat-form-field appearance="outline">
               <mat-label> Especialidad</mat-label>
@@ -87,7 +87,7 @@
               <!--              <h4>Servicio</h4>-->
               <mat-form-field appearance="outline">
                 <mat-label>Servicio</mat-label>
-                <mat-select>
+                <mat-select (selectionChange)="changeValueServicio($event.value)">
                   <mat-option
                     *ngFor="let servicio of serviciosEspecialidad"
                     [value]="servicio.idServicio">

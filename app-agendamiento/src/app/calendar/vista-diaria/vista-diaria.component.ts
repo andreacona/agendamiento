@@ -101,6 +101,7 @@ export class VistaDiariaComponent {
 
   cargarCitas(filtros: FiltrosCalendario): void {
     this.citas = [];
+    console.log(filtros);
     this.reservasCalendarioService.getReservasCalendarioByFilters(filtros).subscribe(
       reservasCalendario => {
         for (const reservaCalendario of reservasCalendario) {
@@ -112,7 +113,6 @@ export class VistaDiariaComponent {
 
         this.citas = reservasCalendario;
         console.log(this.citas);
-        console.log(this.citas.length);
         this.refresh.next();
 
       }
@@ -123,24 +123,34 @@ export class VistaDiariaComponent {
   bloquearHorasEnCalendario(renderEvent: CalendarWeekViewBeforeRenderEvent, eventosHorasBloqueadas: CalendarEvent[],
                             horasDisponibles: string[]): void {
 
+    const bloqueosIngresados = eventosHorasBloqueadas && eventosHorasBloqueadas.length > 0;
+    const disponibilidadesIngresadas = horasDisponibles && horasDisponibles.length > 0;
+
     renderEvent.hourColumns.forEach((hourColumn) => {
       hourColumn.hours.forEach((hour) => {
         hour.segments.forEach((segment) => {
 
-          const segmentDate = segment.date;
           /* BUSCAR HORAS BLOQUEADAS */
-          if (eventosHorasBloqueadas && eventosHorasBloqueadas.filter(
-            eventoHoraBloqueada => segmentDate >= eventoHoraBloqueada.start && segmentDate < eventoHoraBloqueada.end
-          ).length > 0) {
-            segment.cssClass = 'hora-bloqueada';
+          if (bloqueosIngresados) {
+            const segmentDate = segment.date;
+
+            const eventosFiltrados = eventosHorasBloqueadas.filter(
+              eventoHoraBloqueada => {
+                const start = new Date(eventoHoraBloqueada.start);
+                const end = new Date(eventoHoraBloqueada.end);
+                return segmentDate >= start && segmentDate < end;
+              }
+            );
+
+            if (eventosFiltrados.length > 0) {
+              segment.cssClass = 'hora-bloqueada';
+              return;
+            }
           }
 
-          const horaMinutos = moment(segment.date).format('HH:mm:00').toString();
+          // const horaMinutos = moment(segment.date).format('HH:mm:00').toString();
           /* BUSCAR HORAS DISPONIBLES */
-          if (
-            horasDisponibles &&
-            horasDisponibles.filter((hra) => hra === horaMinutos).length > 0
-          ) {
+          if (disponibilidadesIngresadas) {
             segment.cssClass = 'hora-disponible';
           }
         });
@@ -158,7 +168,6 @@ export class VistaDiariaComponent {
   }
 
   filterChanged(filtros: FiltrosCalendario): void {
-    console.log('aqui');
     this.viewDate = moment(filtros.fechaSeleccionada).toDate();
     console.log(this.viewDate);
     this.cargarCitas(filtros);

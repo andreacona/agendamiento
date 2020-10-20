@@ -38,19 +38,30 @@ export class FiltrosBusquedaComponent implements OnInit {
     private especialidadesService: EspecialidadService,
     private servicioService: ServiciosService
   ) {
-    this.filtrosCalendario = new FiltrosCalendario();
-    this.filtrosCalendario.isServicioADomicilio = false;
-    this.filtrosCalendario.idLocal = 1;
+
   }
 
   ngOnInit(): void {
     this.getAllEspecialistas();
     // this.getServiciosByEspecialidad(2);
     this.getAllEspecialidades();
+    this.limpiarFiltros();
+    this.emitChanges();
+  }
+
+  limpiarFiltros(): void {
+    this.filtrosCalendario = new FiltrosCalendario();
+    this.filtrosCalendario.isServicioADomicilio = false;
+    this.filtrosCalendario.idLocal = 1;
+    this.filtrosCalendario.fechaSeleccionada = moment(this.selectedDate).format('YYYY-MM-DD');
   }
 
   changeValueButton(value: string): void {
     this.valueButton = value;
+    this.filtrosCalendario.idServicio = null;
+    this.filtrosCalendario.idEspecialista = null;
+    this.filtrosCalendario.idEspecialidad = null;
+    this.limpiarFiltros();
   }
 
   changeValueEspecialista(idEspecialista: number): void {
@@ -62,12 +73,16 @@ export class FiltrosBusquedaComponent implements OnInit {
 
   changeValueEspecialidad(idEspecialidad: number): void {
     console.log(idEspecialidad);
+    this.filtrosCalendario.idEspecialidad = idEspecialidad;
+    this.emitChanges();
     this.getServiciosByEspecialidad(idEspecialidad);
+
   }
 
-  changeValueServicio(idEspecialidad: number): void {
-    console.log(idEspecialidad);
-    this.getServiciosByEspecialidad(idEspecialidad);
+  changeValueServicio(idServicio: number): void {
+    this.filtrosCalendario.idServicio = idServicio;
+    this.emitChanges();
+    this.getServiciosByEspecialidad(idServicio);
   }
 
   changeValueFechaSeleccionada(fechaSeleccionada: Date): void {
@@ -100,7 +115,6 @@ export class FiltrosBusquedaComponent implements OnInit {
     this.especialidadesService.getAll().subscribe(
       (especialidades) => {
         this.especialidades = especialidades;
-        console.log(especialidades);
       },
       (error) => {
         console.error(error);
