@@ -1,13 +1,14 @@
-import {ChangeDetectionStrategy, Component, TemplateRef, ViewChild} from '@angular/core';
-import {isSameDay, isSameMonth,} from 'date-fns';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, TemplateRef, ViewChild} from '@angular/core';
+import {isSameDay, isSameMonth} from 'date-fns';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CalendarEvent, CalendarWeekViewBeforeRenderEvent} from 'angular-calendar';
+import {CalendarWeekViewBeforeRenderEvent} from 'angular-calendar';
 
 import * as moment from 'moment';
 import {ReservasCalendario} from '../../models/reservas-calendario';
 import {FiltrosCalendario} from '../../models/filtros-calendario';
 import {ReservasCalendarioService} from '../../service/reservas-calendario.service';
+import {EventoCalendario} from '../../models/evento-calendario';
 
 const colors: any = {
   red: {
@@ -28,7 +29,7 @@ const colors: any = {
 })
 export class VistaDiariaComponent {
 
-  @ViewChild('modalContent') modalContent: TemplateRef<any>;
+  @ViewChild('modalResumen') modalResumen: TemplateRef<any>;
   @ViewChild('modalReservarCancelar') modalReservarCancelar: TemplateRef<any>;
 
   /** Tipo de vista, puede ser month, week o day, se cambia en el HTML (linea 81) */
@@ -38,9 +39,8 @@ export class VistaDiariaComponent {
   viewDate: Date = new Date();
 
   /** Se utiliza para mostrar el detalle de el evento seleccionado */
-  modalData: {
-    event: CalendarEvent;
-  };
+  modalResumenData: EventoCalendario;
+
 
   /** Se utiliza para actualizar los eventos utilizando refresh.next() */
   refresh: Subject<any> = new Subject();
@@ -51,10 +51,14 @@ export class VistaDiariaComponent {
   activeDayIsOpen = false;
 
   horaDeInicio: number;
+  styleCalendar: { textAlign: string, width?: string };
 
   constructor(private modal: NgbModal,
-              private reservasCalendarioService: ReservasCalendarioService) {
+              private reservasCalendarioService: ReservasCalendarioService,
+              private changeDetectorRef: ChangeDetectorRef) {
     this.horaDeInicio = 8;
+    this.styleCalendar = {textAlign: 'center'};
+
   }
 
   ngOnInit(): void {
@@ -62,7 +66,7 @@ export class VistaDiariaComponent {
   }
 
   /** Al clickear un dia en la vista del mes */
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+  dayClicked({date, events}: { date: Date; events: EventoCalendario[] }): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
         (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
@@ -88,22 +92,26 @@ export class VistaDiariaComponent {
 
 
   /** Se llama al editar, eliminar, arrastrar o cambiar tamaño de algun evento */
-  handleEvent(citaClickeada: CalendarEvent, eventHTML): void {
-    const mouseX = (eventHTML.sourceEvent as MouseEvent).pageX;
-    const mouseY = (eventHTML.sourceEvent as MouseEvent).pageY;
-    this.modalData = {event: citaClickeada};
-    const horaSeleccionadaDisponible: boolean = this.horaEstaDisponible(eventHTML);
+  handleEvent(citaClickeada: EventoCalendario, eventHTML): void {
 
     if (citaClickeada.meta.isEventoReserva) {
-      this.modal.open(this.modalContent, {size: 'lg'});
+      const mouseX = (eventHTML.sourceEvent as MouseEvent).pageX;
+      const mouseY = (eventHTML.sourceEvent as MouseEvent).pageY;
+      this.modalResumenData = citaClickeada;
+      const horaSeleccionadaDisponible: boolean = this.horaEstaDisponible(eventHTML);
+
+      this.modal.open(this.modalResumen, {size: 'lg'});
+
     }
   }
 
   cargarCitas(filtros: FiltrosCalendario): void {
     this.citas = [];
-    console.log(filtros);
     this.reservasCalendarioService.getReservasCalendarioByFilters(filtros).subscribe(
       reservasCalendario => {
+
+        this.styleCalendar = {width: +100 / reservasCalendario.length + '%', textAlign: 'center'};
+
         for (const reservaCalendario of reservasCalendario) {
           for (const reserva of reservaCalendario.reservas) {
             reserva.start = new Date(reserva.start);
@@ -112,17 +120,18 @@ export class VistaDiariaComponent {
         }
 
         this.citas = reservasCalendario;
-        console.log(this.citas);
-        this.refresh.next();
+
+        console.log('Se encontraron ' + reservasCalendario.length + ' boxes');
+        // this.refresh.next();
+        this.changeDetectorRef.detectChanges();
 
       }
     );
   }
 
 
-  bloquearHorasEnCalendario(renderEvent: CalendarWeekViewBeforeRenderEvent, eventosHorasBloqueadas: CalendarEvent[],
+  bloquearHorasEnCalendario(renderEvent: CalendarWeekViewBeforeRenderEvent, eventosHorasBloqueadas: EventoCalendario[],
                             horasDisponibles: string[]): void {
-
     const bloqueosIngresados = eventosHorasBloqueadas && eventosHorasBloqueadas.length > 0;
     const disponibilidadesIngresadas = horasDisponibles && horasDisponibles.length > 0;
 
@@ -164,7 +173,6 @@ export class VistaDiariaComponent {
   }
 
   abrirModalReservaHora(): void {
-    console.log('Acaa');
   }
 
   filterChanged(filtros: FiltrosCalendario): void {

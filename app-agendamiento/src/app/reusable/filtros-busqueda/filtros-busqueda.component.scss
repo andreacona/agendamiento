@@ -34,8 +34,8 @@ h2 {
 h4 {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 15px;
-  margin-top: 40px;
-  margin-bottom: 40px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 h5 {
@@ -47,6 +47,7 @@ h5 {
 
 mat-form-field {
   margin-right: 12px;
+  font-size: 15px !important;
 }
 
 
@@ -97,9 +98,11 @@ ul li {
 }
 
 .iconos-simbologia {
-  display: -webkit-inline-box;
+  display: inline-flex;
 }
 
 .mat-checkbox {
   font-size: 15px;
 }
+
+

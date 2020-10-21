@@ -3,12 +3,13 @@
     <app-header></app-header>
   </div>
   <div class="contain">
-    <app-filtros-busqueda
-      (changeFiltersValues)="filterChanged($event)"></app-filtros-busqueda>
+    <app-filtros-busqueda (changeFiltersValues)="filterChanged($event)"></app-filtros-busqueda>
 
     <!--CALENDARIO INICIO-->
     <div class="calendar">
-      <h3>{{ viewDate | calendarDate: view + "ViewTitle":"en" }}</h3>
+      <h3>
+        {{ viewDate | calendarDate: view + "ViewTitle":"en" }}
+      </h3>
 
       <div class="row">
         <div style="width: 70px">
@@ -16,6 +17,7 @@
             <h2>&nbsp;</h2>
           </div>
           <mwl-calendar-day-view
+            id="fecha-seleccionada"
             [viewDate]="viewDate"
             [dayStartHour]="horaDeInicio"
             [dayEndHour]="20"
@@ -24,8 +26,8 @@
         </div>
 
         <!-- BOXES-->
-        <div class="row m-0 box" *ngIf="citas.length > 0">
-          <div [style]="{ width: 100 / citas.length + '%', textAlign: 'center' }"
+        <div class="row m-0 box">
+          <div style="{{styleCalendar}}"
                *ngFor="let box of citas">
             <div class="nombre-box">
               <h2>{{ box.box.nombre }}</h2>
@@ -54,62 +56,14 @@
 
     <!-- Modal con detalle de la cita -->
 
-    <ng-template #modalContent let-close="close">
-      <!--<div class="modal-header">
-        <h5 class="modal-title">Detalle de cita</h5>
-        <button type="button" class="close" (click)="close()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body row">
-
-        <div>
-          <label>Profesional:</label>
-          <label>{{ modalData?.event?.meta?.profesional }}</label>
-        </div>
-
-        <div>
-          <label>Cliente:</label>
-          <label>{{ modalData?.event?.meta?.cliente }}</label>
-        </div>
-
-        <div>
-          <label>Tipo de cita:</label>
-          <label>{{ modalData?.event?.meta?.tipoDeCita }}</label>
-        </div>
-
-        <div>
-          <label>Box:</label>
-          <label>{{ modalData?.event?.meta?.box }}</label>
-        </div>
-
-        <div>
-          <label>Fecha Inicio:</label>
-          <label>{{ modalData?.event?.start }}</label>
-        </div>
-
-        <div>
-          <label>Fecha Inicio:</label>
-          <label>{{ modalData?.event?.end }}</label>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-secondary"
-          (click)="close()"
-        >
-          OK
-        </button>
-      </div> -->
+    <ng-template #modalResumen let-close="close">
       <mat-card class="resumen-reserva">
         <div class="header-card">
-          <mat-card-tittle>Paciente: Valentina Escobar</mat-card-tittle>
+          <mat-card-tittle>Paciente: {{modalResumenData.meta.nombreCliente}}</mat-card-tittle>
           <br/>
-          <mat-card-subtittle
-          >Especialista: Yolanda Sepulveda
-          </mat-card-subtittle
-          >
+          <mat-card-subtittle>
+            Especialista: {{ modalResumenData.meta.nombreEspecialista }}
+          </mat-card-subtittle>
           <!-- <button
             mat-icon-button
             disabled
@@ -121,22 +75,32 @@
         <mat-card-content>
           <ul>
             <li>
-              <span>Día/hora:</span>
+              <span>Día/hora: {{ modalResumenData.start | date: 'short' }}</span>
             </li>
             <li>
-              <span>Consulta:</span>
+              <span>
+                Consulta: {{ modalResumenData.meta.nombreServicio }}
+              </span>
             </li>
             <li>
-              <span>Email:</span>
+              <span>
+                Email: {{ modalResumenData.meta.emailCliente }}
+              </span>
             </li>
             <li>
-              <span>teléfono:</span>
+              <span>
+                teléfono:{{ modalResumenData.meta.telefonoCliente }}
+              </span>
             </li>
             <li>
-              <span>Previsión:</span>
+              <span>
+                Previsión: <!-- {{ modalResumenData.meta. }} -->
+              </span>
             </li>
             <li>
-              <span>Pago:</span>
+              <span>
+                Pago: <!-- {{ modalResumenData. }} -->
+              </span>
             </li>
           </ul>
           <div class="btn-card">

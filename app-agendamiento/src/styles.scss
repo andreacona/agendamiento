@@ -77,8 +77,8 @@ body {
 }
 
 .modal-reservar-cancelar .modal-content {
-  height: 106;
-  width: 240;
+  height: 106px;
+  width: 240px;
 }
 
 /* HORAS BLOQUEADAS */
@@ -115,3 +115,15 @@ body {
 .align-self-center {
   align-self: center;
 }
+
+.special-date {
+}
+
+//.special-date .mat-calendar-body-cell-content {
+//  border-top: 1px solid;
+//  border-radius: 40px;
+//}
+//
+//.special-date .mat-calendar-body-today {
+//  border-top: 0 !important;
+//}

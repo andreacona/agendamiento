@@ -28,7 +28,13 @@
               <mat-label> <!-- style="font-size: 12px" -->
                 Nombre especialista
               </mat-label>
-              <mat-select (selectionChange)="changeValueEspecialista($event.value)">
+              <mat-select (selectionChange)="changeValueEspecialista($event.value)"
+                          [(value)]="filtrosCalendario.idEspecialista">
+
+                <mat-option [value]="0">
+                  Todos los especialistas
+                </mat-option>
+
                 <mat-option
                   *ngFor="let especialista of especialistas"
                   [value]="especialista.idEspecialista">
@@ -38,7 +44,6 @@
             </mat-form-field>
 
             <div>
-              <!--              <h4>Servicios:</h4>-->
               <mat-form-field appearance="outline">
                 <mat-label>Servicio</mat-label>
                 <mat-select (selectionChange)="changeValueServicio($event.value)">
@@ -129,13 +134,17 @@
               <mat-label style="font-size: 12px">
                 Escribe la fecha dd-mm-aa
               </mat-label>
-              <input matInput [matDatepicker]="picker1"/>
+
+              <input matInput [matDatepicker]="picker1" [value]="selectedDate" disabled/>
 
               <mat-calendar
+                [dateClass]="dateClass()"
                 [selected]="selectedDate"
                 (selectedChange)="changeValueFechaSeleccionada($event)">
               </mat-calendar>
+
               <mat-datepicker #picker1></mat-datepicker>
+
             </mat-form-field>
           </div>
 

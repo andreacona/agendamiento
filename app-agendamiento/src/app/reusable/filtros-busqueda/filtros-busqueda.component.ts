@@ -7,6 +7,7 @@ import {Servicio} from '../../models/servicio';
 import {Especialidad} from '../../models/especialidad';
 import {FiltrosCalendario} from '../../models/filtros-calendario';
 import * as moment from 'moment';
+import {MatCalendarCellCssClasses} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-filtros-busqueda',
@@ -38,6 +39,10 @@ export class FiltrosBusquedaComponent implements OnInit {
     private especialidadesService: EspecialidadService,
     private servicioService: ServiciosService
   ) {
+    this.filtrosCalendario = new FiltrosCalendario();
+    this.filtrosCalendario.idLocal = 1;
+    this.selectedDate = new Date();
+    this.filtrosCalendario.fechaSeleccionada = moment(this.selectedDate).format('YYYY-MM-DD');
 
   }
 
@@ -46,21 +51,19 @@ export class FiltrosBusquedaComponent implements OnInit {
     // this.getServiciosByEspecialidad(2);
     this.getAllEspecialidades();
     this.limpiarFiltros();
+    this.filtrosCalendario.idEspecialista = 0;
     this.emitChanges();
   }
 
   limpiarFiltros(): void {
-    this.filtrosCalendario = new FiltrosCalendario();
     this.filtrosCalendario.isServicioADomicilio = false;
-    this.filtrosCalendario.idLocal = 1;
-    this.filtrosCalendario.fechaSeleccionada = moment(this.selectedDate).format('YYYY-MM-DD');
+    this.filtrosCalendario.idServicio = null;
+    this.filtrosCalendario.idEspecialista = null;
+    this.filtrosCalendario.idEspecialidad = null;
   }
 
   changeValueButton(value: string): void {
     this.valueButton = value;
-    this.filtrosCalendario.idServicio = null;
-    this.filtrosCalendario.idEspecialista = null;
-    this.filtrosCalendario.idEspecialidad = null;
     this.limpiarFiltros();
   }
 
@@ -68,15 +71,21 @@ export class FiltrosBusquedaComponent implements OnInit {
     this.filtrosCalendario.idEspecialista = idEspecialista;
     this.filtrosCalendario.idServicio = null;
     this.emitChanges();
-    this.getServiciosByEspecialista(idEspecialista);
+    if (idEspecialista) {
+      this.getServiciosByEspecialista(idEspecialista);
+    } else {
+      this.serviciosEspecialista = [];
+    }
   }
 
   changeValueEspecialidad(idEspecialidad: number): void {
-    console.log(idEspecialidad);
     this.filtrosCalendario.idEspecialidad = idEspecialidad;
     this.emitChanges();
-    this.getServiciosByEspecialidad(idEspecialidad);
-
+    if (idEspecialidad) {
+      this.getServiciosByEspecialidad(idEspecialidad);
+    } else {
+      this.serviciosEspecialidad = [];
+    }
   }
 
   changeValueServicio(idServicio: number): void {
@@ -86,8 +95,7 @@ export class FiltrosBusquedaComponent implements OnInit {
   }
 
   changeValueFechaSeleccionada(fechaSeleccionada: Date): void {
-    console.log(fechaSeleccionada);
-
+    this.selectedDate = fechaSeleccionada;
     this.filtrosCalendario.fechaSeleccionada = moment(fechaSeleccionada).format('YYYY-MM-DD');
     this.emitChanges();
 
@@ -95,9 +103,6 @@ export class FiltrosBusquedaComponent implements OnInit {
 
   emitChanges(): void {
     this.changeFiltersValues.emit(this.filtrosCalendario);
-  }
-
-  userSelection(): void {
   }
 
   getAllEspecialistas(): void {
@@ -140,4 +145,10 @@ export class FiltrosBusquedaComponent implements OnInit {
       });
   }
 
+
+  dateClass(): MatCalendarCellCssClasses {
+    return (date: Date): MatCalendarCellCssClasses => {
+      return 'special-date';
+    };
+  }
 }
