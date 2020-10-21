@@ -116,6 +116,11 @@ body {
   align-self: center;
 }
 
+.mat-flat-button.mat-primary, .mat-raised-button.mat-primary,
+.mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: #F4C004 !important;
+}
+
 .special-date {
 }
 
@@ -127,3 +132,5 @@ body {
 //.special-date .mat-calendar-body-today {
 //  border-top: 0 !important;
 //}
+
+

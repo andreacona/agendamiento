@@ -7,46 +7,49 @@
       <div class="filtrosAnularBusqueda">
         <h2>Anular horas</h2>
         <div class="button-row">
-          <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
+          <mat-button-toggle-group name="fontStyle" aria-label="Font Style"
+                                   [value]="valueButton">
             <mat-button-toggle
               (change)="changeValueButton($event.value)"
               value="filtroPaciente"
-              >Pacientes
+            >Pacientes
             </mat-button-toggle>
             <mat-button-toggle
               (change)="changeValueButton($event.value)"
               value="filtroEspecialista"
-              >Especialista</mat-button-toggle
+            >Especialista
+            </mat-button-toggle
             >
           </mat-button-toggle-group>
         </div>
       </div>
       <div *ngIf="valueButton == 'filtroPaciente'">
         <h3>Anular hora por rut:</h3>
-        <mat-form-field class="busqueda-clientes" appearance="outline">
+        <mat-form-field class="width-input" appearance="outline">
           <mat-label>Escribe el RUT del cliente</mat-label>
-          <input matInput type="text" [(ngModel)]="value" />
+          <input matInput type="text" [(ngModel)]="rutCliente"/>
           <button
             mat-button
-            *ngIf="value"
             matSuffix
             mat-icon-button
             aria-label="Clear"
-            (click)="value = ''"
+            (click)="rutCliente = null"
           >
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
         <div class="btn-busqueda-rut">
-          <button mat-raised-button color="primary">Buscar</button>
+          <button mat-raised-button color="primary" (click)="getReservasByRutCliente()">
+            Buscar
+          </button>
         </div>
       </div>
 
       <div *ngIf="valueButton == 'filtroEspecialista'">
         <h3>Anular hora por especialista:</h3>
-        <mat-form-field class="busquedaPorEspecialista" appearance="outline">
-          <mat-label style="font-size: 12px"> Seleccionar </mat-label>
-          <mat-select (selectionChange)="changeValueProfesion($event.value)">
+        <mat-form-field class="width-input" appearance="outline">
+          <mat-label style="font-size: 12px"> Seleccionar</mat-label>
+          <mat-select [(value)]="idEspecialista">
             <mat-option
               *ngFor="let especialista of especialistas"
               [value]="especialista.idEspecialista"
@@ -58,7 +61,7 @@
         <div class="rangoDeFechas">
           <h3>Rango de fechas:</h3>
           <!-- -->
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="width-input">
             <mat-label>Fecha inicio de busqueda</mat-label>
             <input
               matInput
@@ -72,12 +75,12 @@
             <mat-datepicker #fechaInicio></mat-datepicker>
           </mat-form-field>
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="width-input">
             <mat-label>Fecha fin de busqueda</mat-label>
             <input
               matInput
               [matDatepicker]="picker2"
-              [formControl]="fechaDe < Fin"
+              [formControl]="fechaDeFin"
             />
             <mat-datepicker-toggle
               matSuffix
@@ -86,124 +89,112 @@
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>
-        <button (click)="console()">console</button>
-        <button (click)="otroConsole2()">console 2</button>
+        <button (click)="getReservasByEspecialistaAndFechas()"
+                mat-raised-button color="primary">
+          Buscar
+        </button>
       </div>
     </div>
-    <div class="anularHoras">
-      <mat-card>
-        <mat-card-tittle>
-          <img
-            src="assets/images/pendiente-de-confirmacion.png"
-            alt=""
-            style="padding-bottom: 25px"
-          />
-          <ul>
-            <li class="mat-header" style="font-weight: 600">Paciente:</li>
-            <li class="mat-header" style="font-weight: 400">Especialista:</li>
-          </ul>
-        </mat-card-tittle>
-        <mat-card-content>
-          <ul>
-            <li>
-              <span class="card-content">Hora:</span>
-            </li>
-            <li>
-              <span class="card-content">Consulta:</span>
-            </li>
-            <li>
-              <span class="card-content">Email:</span>
-            </li>
-            <li>
-              <span class="card-content">Previsión:</span>
-            </li>
-            <li>
-              <span class="card-content">Pago:</span>
-            </li>
-          </ul>
-          <div>
-            <button mat-raised-button style="margin-right: 5px">Anular</button>
-            <button mat-raised-button color="primary">Reagendar</button>
-          </div>
-        </mat-card-content>
-      </mat-card>
+
+    <div class="row">
+      <div class="anularHoras" *ngFor="let reserva of reservasEncontradas">
+        <mat-card>
+          <mat-card-tittle>
+            <img
+              src="assets/images/pendiente-de-confirmacion.png"
+              alt=""
+              style="padding-bottom: 25px"
+            />
+            <ul>
+              <li class="mat-header" style="font-weight: 600">
+                Paciente: {{ reserva.cliente.nombre + ' ' + reserva.cliente.apellido}}
+              </li>
+              <li class="mat-header" style="font-weight: 400">
+                Especialista: {{ reserva.especialista.nombre }}
+              </li>
+            </ul>
+          </mat-card-tittle>
+          <mat-card-content>
+            <ul>
+              <li>
+                <span class="card-content">
+                  Dia: {{ reserva.diaReserva }}
+                </span>
+              </li>
+              <li>
+                <span class="card-content">
+                  Hora: {{ reserva.horaReserva }}
+                </span>
+              </li>
+              <li>
+                <span class="card-content">
+                  Consulta: {{ reserva.servicio.nombre }}
+                </span>
+              </li>
+              <li>
+                <span class="card-content" *ngIf="reserva.cliente.telefono">
+                  Teléfono: {{ reserva.cliente.telefono }}
+                </span>
+              </li>
+              <li>
+                <span class="card-content" *ngIf="reserva.cliente.email">
+                  Email: {{ reserva.cliente.email }}
+                </span>
+              </li>
+              <li>
+                <span class="card-content">
+                  Previsión: {{ reserva.convenio.nombre }}
+                </span>
+              </li>
+              <li>
+                <span class="card-content">
+                  Pago:
+                </span>
+              </li>
+              <li>
+                <span class="card-content">
+                  Comentario: {{ reserva.comentario }}
+                </span>
+              </li>
+            </ul>
+            <div>
+              <button mat-raised-button style="margin-right: 5px"
+                      (click)="anularReserva(reserva)">Anular
+              </button>
+              <button mat-raised-button color="primary">Reagendar</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
-    <div class="anularHoras">
-      <mat-card>
-        <mat-card-tittle>
-          <img
-            src="assets/images/pendiente-de-confirmacion.png"
-            alt=""
-            style="padding-bottom: 25px"
-          />
-          <ul>
-            <li class="mat-header" style="font-weight: 600">Paciente:</li>
-            <li class="mat-header" style="font-weight: 400">Especialista:</li>
-          </ul>
-        </mat-card-tittle>
-        <mat-card-content>
-          <ul>
-            <li>
-              <span class="card-content">Hora:</span>
-            </li>
-            <li>
-              <span class="card-content">Consulta:</span>
-            </li>
-            <li>
-              <span class="card-content">Email:</span>
-            </li>
-            <li>
-              <span class="card-content">Previsión:</span>
-            </li>
-            <li>
-              <span class="card-content">Pago:</span>
-            </li>
-          </ul>
-          <div>
-            <button mat-raised-button style="margin-right: 5px">Anular</button>
-            <button mat-raised-button color="primary">Reagendar</button>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-    <div class="anularHoras">
-      <mat-card>
-        <mat-card-tittle>
-          <img
-            src="assets/images/pendiente-de-confirmacion.png"
-            alt=""
-            style="padding-bottom: 25px"
-          />
-          <ul>
-            <li class="mat-header" style="font-weight: 600">Paciente:</li>
-            <li class="mat-header" style="font-weight: 400">Especialista:</li>
-          </ul>
-        </mat-card-tittle>
-        <mat-card-content>
-          <ul>
-            <li>
-              <span class="card-content">Hora:</span>
-            </li>
-            <li>
-              <span class="card-content">Consulta:</span>
-            </li>
-            <li>
-              <span class="card-content">Email:</span>
-            </li>
-            <li>
-              <span class="card-content">Previsión:</span>
-            </li>
-            <li>
-              <span class="card-content">Pago:</span>
-            </li>
-          </ul>
-          <div>
-            <button mat-raised-button style="margin-right: 5px">Anular</button>
-            <button mat-raised-button color="primary">Reagendar</button>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
+
+
   </div>
   <router-outlet></router-outlet>
 </div>
+
+<ng-template #modalAnular let-close="close">
+  <mat-card class="resumen-reserva">
+    <div class="header-card">
+      <mat-card-tittle></mat-card-tittle>
+      <br/>
+    </div>
+    <mat-card-content>
+      <ul>
+        <li>
+              <span>
+                Previsión: <!-- {{ modalResumenData.meta. }} -->
+              </span>
+        </li>
+
+      </ul>
+      <div class="btn-card">
+        <button mat-raised-button>Cancelar</button>
+        <button mat-raised-button color="primary" class="btn-card-izq">
+          Anular
+        </button>
+      </div>
+    </mat-card-content>
+    <mat-card-footer></mat-card-footer>
+  </mat-card>
+</ng-template>

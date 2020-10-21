@@ -105,7 +105,13 @@ export class VistaDiariaComponent {
     }
   }
 
-  cargarCitas(filtros: FiltrosCalendario): void {
+  cargarCitas({...filtros}: FiltrosCalendario): void {
+    if (filtros.idEspecialidad === 0) {
+      filtros.idEspecialidad = null;
+    }
+    if (filtros.idEspecialista === 0) {
+      filtros.idEspecialista = null;
+    }
     this.citas = [];
     this.reservasCalendarioService.getReservasCalendarioByFilters(filtros).subscribe(
       reservasCalendario => {

@@ -48,11 +48,8 @@ export class FiltrosBusquedaComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllEspecialistas();
-    // this.getServiciosByEspecialidad(2);
     this.getAllEspecialidades();
     this.limpiarFiltros();
-    this.filtrosCalendario.idEspecialista = 0;
-    this.emitChanges();
   }
 
   limpiarFiltros(): void {
@@ -68,24 +65,22 @@ export class FiltrosBusquedaComponent implements OnInit {
   }
 
   changeValueEspecialista(idEspecialista: number): void {
-    this.filtrosCalendario.idEspecialista = idEspecialista;
+    if (idEspecialista) {
+      this.filtrosCalendario.idEspecialista = idEspecialista;
+    }
     this.filtrosCalendario.idServicio = null;
     this.emitChanges();
-    if (idEspecialista) {
-      this.getServiciosByEspecialista(idEspecialista);
-    } else {
-      this.serviciosEspecialista = [];
-    }
+    this.getServiciosByEspecialista(idEspecialista);
   }
 
   changeValueEspecialidad(idEspecialidad: number): void {
-    this.filtrosCalendario.idEspecialidad = idEspecialidad;
-    this.emitChanges();
     if (idEspecialidad) {
-      this.getServiciosByEspecialidad(idEspecialidad);
-    } else {
-      this.serviciosEspecialidad = [];
+      this.filtrosCalendario.idEspecialidad = idEspecialidad;
     }
+    this.filtrosCalendario.idServicio = null;
+
+    this.emitChanges();
+    this.getServiciosByEspecialidad(idEspecialidad);
   }
 
   changeValueServicio(idServicio: number): void {

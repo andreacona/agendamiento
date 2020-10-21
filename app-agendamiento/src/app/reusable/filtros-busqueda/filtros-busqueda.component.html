@@ -21,7 +21,6 @@
       <form style="margin-top: 30px">
         <div>
           <div *ngIf="valueButton === 'filtroNombre'">
-            <!--            <h4>Nombre Especialista</h4>-->
             <mat-form-field
               class="busquedaPorEspecialista"
               appearance="outline">
@@ -30,11 +29,6 @@
               </mat-label>
               <mat-select (selectionChange)="changeValueEspecialista($event.value)"
                           [(value)]="filtrosCalendario.idEspecialista">
-
-                <mat-option [value]="0">
-                  Todos los especialistas
-                </mat-option>
-
                 <mat-option
                   *ngFor="let especialista of especialistas"
                   [value]="especialista.idEspecialista">
@@ -80,7 +74,7 @@
             <mat-form-field appearance="outline">
               <mat-label> Especialidad</mat-label>
               <mat-select (selectionChange)="changeValueEspecialidad($event.value)">
-                <mat-option
+               <mat-option
                   *ngFor="let especialidad of especialidades"
                   [value]="especialidad.idEspecialidad">
                   {{ especialidad.nombre }}
@@ -197,3 +191,5 @@
     </div>
   </div>
 </div>
+
+
