@@ -5,15 +5,18 @@
       <mat-button-toggle-group
         [value]="valueButton"
         name="filtroBusqueda"
-        aria-label="Filtro Busqueda">
+        aria-label="Filtro Busqueda"
+      >
         <mat-button-toggle
           (change)="changeValueButton($event.value)"
-          value="filtroNombre">
+          value="filtroNombre"
+        >
           Nombre
         </mat-button-toggle>
         <mat-button-toggle
           (change)="changeValueButton($event.value)"
-          value="filtroEspecialidad">
+          value="filtroEspecialidad"
+        >
           Especialidad
         </mat-button-toggle>
       </mat-button-toggle-group>
@@ -23,15 +26,18 @@
           <div *ngIf="valueButton === 'filtroNombre'">
             <mat-form-field
               class="busquedaPorEspecialista"
-              appearance="outline">
-              <mat-label> <!-- style="font-size: 12px" -->
+              appearance="outline"
+            >
+              <mat-label>
+                <!-- style="font-size: 12px" -->
                 Nombre especialista
               </mat-label>
               <mat-select (selectionChange)="changeValueEspecialista($event.value)"
                           [(value)]="filtrosCalendario.idEspecialista">
                 <mat-option
                   *ngFor="let especialista of especialistas"
-                  [value]="especialista.idEspecialista">
+                  [value]="especialista.idEspecialista"
+                >
                   {{ especialista.nombre }}
                 </mat-option>
               </mat-select>
@@ -40,9 +46,13 @@
             <div>
               <mat-form-field appearance="outline">
                 <mat-label>Servicio</mat-label>
-                <mat-select (selectionChange)="changeValueServicio($event.value)">
-                  <mat-option *ngFor="let servicio of serviciosEspecialista"
-                              [value]="servicio.idServicio">
+                <mat-select
+                  (selectionChange)="changeValueServicio($event.value)"
+                >
+                  <mat-option
+                    *ngFor="let servicio of serviciosEspecialista"
+                    [value]="servicio.idServicio"
+                  >
                     {{ servicio.nombre }}
                   </mat-option>
                 </mat-select>
@@ -76,7 +86,8 @@
               <mat-select (selectionChange)="changeValueEspecialidad($event.value)">
                <mat-option
                   *ngFor="let especialidad of especialidades"
-                  [value]="especialidad.idEspecialidad">
+                  [value]="especialidad.idEspecialidad"
+                >
                   {{ especialidad.nombre }}
                 </mat-option>
               </mat-select>
@@ -86,10 +97,13 @@
               <!--              <h4>Servicio</h4>-->
               <mat-form-field appearance="outline">
                 <mat-label>Servicio</mat-label>
-                <mat-select (selectionChange)="changeValueServicio($event.value)">
+                <mat-select
+                  (selectionChange)="changeValueServicio($event.value)"
+                >
                   <mat-option
                     *ngFor="let servicio of serviciosEspecialidad"
-                    [value]="servicio.idServicio">
+                    [value]="servicio.idServicio"
+                  >
                     {{ servicio.nombre }}
                   </mat-option>
                 </mat-select>
@@ -102,7 +116,7 @@
             <div>
               <h4>Convenio de salud:</h4>
               <mat-checkbox class="convenios-margin">Fonasa</mat-checkbox>
-              <br/>
+              <br />
               <mat-checkbox class="convenios-margin">Particular</mat-checkbox>
             </div>
 
@@ -134,55 +148,76 @@
               <mat-calendar
                 [dateClass]="dateClass()"
                 [selected]="selectedDate"
-                (selectedChange)="changeValueFechaSeleccionada($event)">
+                (selectedChange)="changeValueFechaSeleccionada($event)"
+              >
               </mat-calendar>
 
               <mat-datepicker #picker1></mat-datepicker>
 
             </mat-form-field>
           </div>
-
         </div>
       </form>
       <div class="simbologia">
         <ul>
           <li>
             <div class="iconos-simbologia">
-              <img id="media-maniana-icon" src="/assets/images/demañana-disponible.svg"/>
+              <img
+                id="media-maniana-icon"
+                src="/assets/images/demañana-disponible.svg"
+              />
               <h5>Media mañana disponible</h5>
             </div>
           </li>
           <li>
             <div class="iconos-simbologia">
-              <img id="media-tarde-icon" src="/assets/images/detarde-disponible.svg"/>
+              <img
+                id="media-tarde-icon"
+                src="/assets/images/detarde-disponible.svg"
+              />
               <h5>Media tarde disponible</h5>
             </div>
           </li>
           <li>
-            <img id="dia-completo-disponible-icon" src="/assets/images/completo-disponible.svg"/>
+            <img
+              id="dia-completo-disponible-icon"
+              src="/assets/images/completo-disponible.svg"
+            />
             <h5 style="display: inline">Día completo disponible</h5>
           </li>
           <li>
             <div class="iconos-simbologia">
-              <img id="dia-completo-sin-horas-icon" src="/assets/images/sin-disponibilidad.svg"/>
+              <img
+                id="dia-completo-sin-horas-icon"
+                src="/assets/images/sin-disponibilidad.svg"
+              />
               <h5>Día completo sin horas</h5>
             </div>
           </li>
           <li>
             <div class="iconos-simbologia">
-              <img id="dia-no-disponible-icon" src="/assets/images/no-trabajado.svg"/>
+              <img
+                id="dia-no-disponible-icon"
+                src="/assets/images/no-trabajado.svg"
+              />
               <h5>Día no disponible no trabajado</h5>
             </div>
           </li>
           <li>
             <div class="iconos-simbologia">
-              <img id="dia-seleccionado-icon" src="/assets/images/seleccionado.svg"/>
+              <img
+                id="dia-seleccionado-icon"
+                src="/assets/images/seleccionado.svg"
+              />
               <h5>Día seleccionado / "Hoy por defecto"</h5>
             </div>
           </li>
           <li>
             <div class="iconos-simbologia">
-              <img id="dia-hoy-icon" src="/assets/images/hoy-noseleccionado.svg"/>
+              <img
+                id="dia-hoy-icon"
+                src="/assets/images/hoy-noseleccionado.svg"
+              />
               <h5>Hoy, no seleccionado</h5>
             </div>
           </li>
