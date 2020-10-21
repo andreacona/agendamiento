@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 //COMPONENTS
 import { AppComponent } from './app.component';
 import { AnularHorasComponent } from './calendar/anular-horas/anular-horas.component';
+import { BloqueoHorasComponent } from './calendar/bloqueo-horas/bloqueo-horas.component';
 
 //ANGULAR MATERIAL
 
@@ -91,6 +92,7 @@ class CustomDateFormatter extends CalendarNativeDateFormatter {
     MatButtonToggleModule,
     HttpClientModule,
     ReactiveFormsModule,
+    MatCardModule,
   ],
 
   entryComponents: [ModalPopUpComponent],

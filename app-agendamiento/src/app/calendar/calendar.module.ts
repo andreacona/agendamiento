@@ -9,16 +9,25 @@ import { VistaSemanalComponent } from './vista-semanal/vista-semanal.component';
 import { ReusableModule } from '../reusable/reusable.module';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { RouterModule } from '@angular/router';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BloqueoHorasComponent } from './bloqueo-horas/bloqueo-horas.component';
 
 @NgModule({
-  declarations: [VistaSemanalComponent, HomeComponent],
+  declarations: [VistaSemanalComponent, HomeComponent, BloqueoHorasComponent],
   imports: [
     RouterModule,
     CommonModule,
     CalendarRoutingModule,
     ReusableModule,
-    MatNativeDateModule,
+    MatCardModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatInputModule,
+    MatDatepickerModule,
   ],
   providers: [MatDatepicker],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
