@@ -57,20 +57,13 @@
     <!-- Modal con detalle de la cita -->
 
     <ng-template #modalResumen let-close="close">
-      <mat-card class="resumen-reserva">
+      <mat-card>
         <div class="header-card">
           <mat-card-tittle>Paciente: {{modalResumenData.meta.nombreCliente}}</mat-card-tittle>
           <br/>
           <mat-card-subtittle>
             Especialista: {{ modalResumenData.meta.nombreEspecialista }}
           </mat-card-subtittle>
-          <!-- <button
-            mat-icon-button
-            disabled
-            aria-label="Example icon button with a open in new tab icon"
-          >
-            <mat-icon>cancel</mat-icon>
-          </button>-->
         </div>
         <mat-card-content>
           <ul>
@@ -114,23 +107,199 @@
       </mat-card>
     </ng-template>
 
-    <ng-template #modalReservarCancelar let-close="close">
-      <mat-card>
-        <ul>
-          <li class="PopUpReservaIcon" (click)="abrirModalReservaHora()">
-            <span class="material-icons"> event_available </span>
-            <div class="reservarHora">RESERVAR HORA</div>
-          </li>
-          <li class="PopUpReservaIcon">
-            <span class="material-icons"> cancel </span>
-            <div class="reservarHora">ANULAR HORA</div>
-          </li>
-        </ul>
-
-        <!-- <mat-card-footer> </mat-card-footer> -->
-      </mat-card>
-    </ng-template>
 
     <router-outlet></router-outlet>
   </div>
 </div>
+
+
+<ng-template #modalNuevaReserva let-close="close">
+  <mat-card style="padding:15px">
+
+    <div class="header-card">
+      Reserva de hora
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Buscador</mat-label>
+          <input matInput [(ngModel)]="rutCliente" placeholder="12345678-9"/>
+          <button mat-button matSuffix mat-stroked-button aria-label="search"
+                  (click)="findClienteByRut(rutCliente)">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <div class="alert alert-warning alert-dismissible fade show"
+             *ngIf="showAlertRutNoEncontrado">
+          No se encontró el rut en la base de datos
+          <button type="button" class="close" aria-label="Close"
+                  (click)="showAlertRutNoEncontrado = false">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput [(ngModel)]="reservaForm.cliente.nombre"/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input matInput [(ngModel)]="reservaForm.cliente.apellido"/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Rut</mat-label>
+          <input matInput [(ngModel)]="reservaForm.cliente.rut"/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput [matDatepicker]="pickerFechaNacimiento"
+                 [(ngModel)]="reservaForm.cliente.fechaNacimiento"
+                 (dateChange)="calcularEdadCliente($event.value)"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="pickerFechaNacimiento"></mat-datepicker-toggle>
+          <mat-datepicker #pickerFechaNacimiento></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Edad</mat-label>
+          <input matInput disabled [(ngModel)]="edadClienteForm"/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label> Prevision</mat-label>
+          <mat-select>
+            <mat-option>
+              prevision
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Telefono</mat-label>
+          <input matInput/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput/>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-sm-12">
+        <h4>Reserva</h4>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha</mat-label>
+          <input matInput disabled [(ngModel)]="fechaReservaForm"/>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Hora</mat-label>
+          <input matInput type="time" disabled [(ngModel)]="reservaForm.horaReserva"/>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label> Especialista</mat-label>
+          <mat-select>
+            <mat-option>
+              especialista
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label> Especialidad</mat-label>
+          <mat-select>
+            <mat-option>
+              especialidad
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label> Tipo prestación / servicio</mat-label>
+          <mat-select>
+            <mat-option>
+              servicio
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Precio</mat-label>
+          <input matInput type="number" disabled/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Duración</mat-label>
+          <input matInput type="number" disabled/>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6">
+        <mat-form-field appearance="outline">
+          <mat-label> Estado de pago</mat-label>
+          <mat-select>
+            <mat-option>
+              estado de pago
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+      <div class="col-sm-12 text-right">
+
+        <button mat-raised-button color="accent">CANCELAR</button>
+        <button class="ml-4" mat-raised-button color="primary">AGENDAR</button>
+
+      </div>
+
+
+    </div>
+
+
+    <!-- <mat-card-footer> </mat-card-footer> -->
+  </mat-card>
+</ng-template>

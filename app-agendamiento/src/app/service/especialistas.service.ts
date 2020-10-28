@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Reserva} from '../models/reserva';
 import {Especialista} from '../models/especialista';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EspecialistasService {
 
-  urlEndpoint = 'http://localhost:8080/' + 'especialista';
+  urlEndpoint = environment.apiUrl + 'especialista';
 
   constructor(private httpClient: HttpClient) {
   }

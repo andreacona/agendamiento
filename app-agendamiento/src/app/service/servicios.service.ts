@@ -1,12 +1,13 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServiciosService {
-  urlEndpoint = 'http://localhost:8080/' + 'servicio';
+  urlEndpoint = environment.apiUrl + 'servicio';
 
   constructor(private httpClient: HttpClient) {
   }

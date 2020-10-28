@@ -15,6 +15,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BloqueoHorasComponent } from './bloqueo-horas/bloqueo-horas.component';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [VistaSemanalComponent, HomeComponent, BloqueoHorasComponent],
@@ -28,6 +29,8 @@ import { BloqueoHorasComponent } from './bloqueo-horas/bloqueo-horas.component';
     MatButtonModule,
     MatInputModule,
     MatDatepickerModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [MatDatepicker],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

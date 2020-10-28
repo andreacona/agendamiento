@@ -48,14 +48,9 @@ mat-form-field {
 }
 
 mat-card {
-  width: 243px;
-  height: 350px;
   padding: 14px 14px 14px 14px;
 }
 
-mat-card-tittle {
-  padding-bottom: 10px;
-}
 
 mat-card-content {
   margin-top: 20px;
@@ -63,7 +58,7 @@ mat-card-content {
 }
 
 ul {
-  padding: 0px;
+  padding: 0;
   display: inline-block;
 }
 
@@ -90,3 +85,9 @@ mat-form-field {
   margin-right: 12px;
 }
 
+
+
+.mat-card-anular {
+  width: 100%;
+  padding-left: 60px
+}

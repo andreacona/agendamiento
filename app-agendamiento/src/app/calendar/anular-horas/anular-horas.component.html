@@ -158,10 +158,10 @@
               </li>
             </ul>
             <div>
-              <button mat-raised-button style="margin-right: 5px"
-                      (click)="anularReserva(reserva)">Anular
+              <button mat-raised-button class="mr-2" color="accent"
+                      (click)="openModalAnular(reserva.idReserva)">Anular
               </button>
-              <button mat-raised-button color="primary">Reagendar</button>
+              <!--<button mat-raised-button color="primary">Reagendar</button>-->
             </div>
           </mat-card-content>
         </mat-card>
@@ -174,23 +174,16 @@
 </div>
 
 <ng-template #modalAnular let-close="close">
-  <mat-card class="resumen-reserva">
+  <mat-card class="mat-card-anular">
     <div class="header-card">
-      <mat-card-tittle></mat-card-tittle>
-      <br/>
+      <mat-card-title>¿Estás seguro/a?</mat-card-title>
+      <mat-card-subtitle>Se eliminarán los datos de agendamiento.</mat-card-subtitle>
     </div>
     <mat-card-content>
-      <ul>
-        <li>
-              <span>
-                Previsión: <!-- {{ modalResumenData.meta. }} -->
-              </span>
-        </li>
-
-      </ul>
-      <div class="btn-card">
-        <button mat-raised-button>Cancelar</button>
-        <button mat-raised-button color="primary" class="btn-card-izq">
+      <div class="btn-card text-right">
+        <button mat-raised-button color="accent" class="mr-2" (click)="closeModal()">Cancelar</button>
+        <button mat-raised-button color="primary" class="btn-card-izq"
+                (click)="anularReserva()">
           Anular
         </button>
       </div>

@@ -1,7 +1,7 @@
 <div id="box">
   <div class="align-self-center">
     <div class="box-image">
-      <img src="/assets/images/img-login.png" alt="imagen login" />
+      <img src="/assets/images/img-login.png" alt="imagen login"/>
     </div>
   </div>
 
@@ -11,7 +11,7 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Nombre de Usuario</mat-label>
-          <input matInput placeholder="Placeholder" />
+          <input matInput placeholder="Placeholder" [(ngModel)]="username"/>
           <mat-hint>Ingresa tu usuario</mat-hint>
         </mat-form-field>
       </div>
@@ -19,12 +19,14 @@
       <div>
         <mat-form-field appearance="outline">
           <mat-label>Contraseña</mat-label>
-          <input matInput placeholder="Placeholder" />
+          <input matInput type="password" placeholder="Placeholder" [(ngModel)]="password"/>
           <mat-hint>Ingresa tu contraseña</mat-hint>
         </mat-form-field>
       </div>
       <section>
-        <button mat-raised-button color="red">Iniciar sesión</button>
+        <button mat-raised-button color="red"
+                (click)="validarFormulario()">Iniciar sesión
+        </button>
       </section>
     </div>
   </div>

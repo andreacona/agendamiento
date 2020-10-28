@@ -6,7 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 
 import { MatGridListModule } from '@angular/material/grid-list';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,17 +16,18 @@ import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatGridListModule,
-  ],
+    imports: [
+        CommonModule,
+        AuthRoutingModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatGridListModule,
+        FormsModule,
+    ],
 })
 export class AuthModule {}

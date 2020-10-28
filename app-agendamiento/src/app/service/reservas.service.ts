@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Reserva} from '../models/reserva';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservasService {
-  urlEndpoint = 'http://localhost:8080/' + 'reserva';
+  urlEndpoint = environment.apiUrl + 'reserva';
 
   constructor(private httpClient: HttpClient) {
   }
@@ -27,6 +28,12 @@ export class ReservasService {
       `&fechaHasta=${fechaHasta ? fechaHasta : ''}`;
 
     return this.httpClient.get<Reserva[]>(url);
+  }
+
+  anularById(idReserva: number): Observable<{ mensaje: string }> {
+    const url = this.urlEndpoint +
+      `/anular-by-id` + `?idReserva=${idReserva}`;
+    return this.httpClient.delete<{ mensaje: string }>(url);
   }
 
 }

@@ -106,6 +106,7 @@ export class FiltrosBusquedaComponent implements OnInit {
         this.especialistas = especialistas;
       },
       (error) => {
+        /* TODO: */
         console.error(error);
       }
     );
@@ -117,6 +118,7 @@ export class FiltrosBusquedaComponent implements OnInit {
         this.especialidades = especialidades;
       },
       (error) => {
+        /* TODO: */
         console.error(error);
       }
     );
@@ -127,6 +129,9 @@ export class FiltrosBusquedaComponent implements OnInit {
       .getServiciosByEspecialista(idEspecialista)
       .subscribe((servicios) => {
         this.serviciosEspecialista = servicios;
+      }, err => {
+        /* TODO: */
+
       });
   }
 
@@ -137,6 +142,9 @@ export class FiltrosBusquedaComponent implements OnInit {
       .subscribe((servicios) => {
         this.serviciosEspecialidad = servicios;
         console.log(servicios);
+      }, err => {
+        /* TODO: */
+
       });
   }
 
@@ -145,5 +153,10 @@ export class FiltrosBusquedaComponent implements OnInit {
     return (date: Date): MatCalendarCellCssClasses => {
       return 'special-date';
     };
+  }
+
+  changeTipoDomicilio(event: boolean): void {
+    this.filtrosCalendario.isServicioADomicilio = event;
+    this.emitChanges();
   }
 }

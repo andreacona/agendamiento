@@ -3,14 +3,14 @@ import {FiltrosCalendario} from '../models/filtros-calendario';
 import {Observable} from 'rxjs';
 import {ReservasCalendario} from '../models/reservas-calendario';
 import {HttpClient} from '@angular/common/http';
-import {forEachToken} from 'tslint';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReservasCalendarioService {
 
-  private urlEndpoint = 'http://localhost:8080/' + 'reservas-calendario';
+  private urlEndpoint = environment.apiUrl + 'reservas-calendario';
 
   constructor(private httpClient: HttpClient) {
   }

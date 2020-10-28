@@ -16,7 +16,9 @@ export class Reserva {
   box: Box;
   diaReserva: string;
   horaReserva: string;
-  status: number;
+  status: string;
+  deleted: boolean;
+  consultaADomicilio: boolean;
   createDateTime: Date;
   updateDateTime: Date;
 }

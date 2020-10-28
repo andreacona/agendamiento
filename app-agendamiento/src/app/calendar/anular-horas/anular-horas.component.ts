@@ -30,6 +30,7 @@ export class AnularHorasComponent implements OnInit {
   rutCliente: string;
 
   serializedDate = new FormControl(new Date().toISOString());
+  private idReservaAnular: number;
 
   constructor(private especialistasService: EspecialistasService,
               private reservasService: ReservasService,
@@ -82,10 +83,31 @@ export class AnularHorasComponent implements OnInit {
     );
   }
 
-  anularReserva(reserva: Reserva): void {
-    this.modal.open(this.modalAnular, {
-      size: 'reservar-cancelar',
-    });
+  openModalAnular(idReserva: number): void {
+    this.idReservaAnular = idReserva;
+    this.modal.open(this.modalAnular, {size: 'anular'});
   }
 
+  anularReserva(): void {
+    this.reservasService.anularById(this.idReservaAnular).subscribe(
+      response => {
+        console.log(response);
+        this.modal.dismissAll();
+        this.refreshReservas();
+      }
+    );
+  }
+
+  private refreshReservas(): void {
+    if (this.valueButton === 'filtroPaciente') {
+      this.getReservasByRutCliente();
+    } else {
+      this.getReservasByEspecialistaAndFechas();
+    }
+  }
+
+  closeModal(): void {
+    this.modal.dismissAll();
+  }
 }
+

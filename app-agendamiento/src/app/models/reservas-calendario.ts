@@ -1,9 +1,9 @@
-import {CalendarEvent} from 'angular-calendar';
 import {Box} from './box';
+import {EventoCalendario} from './evento-calendario';
 
 export class ReservasCalendario {
   box: Box;
-  reservas: CalendarEvent[];
-  horasBloqueadas: CalendarEvent[];
+  reservas: EventoCalendario[];
+  horasBloqueadas: EventoCalendario[];
   horasDisponibles: string[];
 }
