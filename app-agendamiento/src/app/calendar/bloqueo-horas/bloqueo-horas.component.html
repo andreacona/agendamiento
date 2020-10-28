@@ -7,19 +7,18 @@
 <div class="contenedor">
   <mat-card>
     <mat-card-title class="card-title-bh">
-      <h4 style="font-weight: 500; font-size: 20px">Bloquear horas</h4>
+      <h4 style="font-weight: 500; font-size: 20px">Bloquear hora</h4>
     </mat-card-title>
     <mat-card-subtitle>
       Por motivos específicos o vaciones del prestador
     </mat-card-subtitle>
     <mat-card-content>
-      <h4 style="margin: 0; margin-top: 50px; font-weight: 500">
-        Título contenido categoría:
-      </h4>
-      <br />
-      <mat-form-field appearance="outline">
+      <mat-form-field appearance="outline" class="col-sm-12">
         <mat-label>Seleccione especialista</mat-label>
         <mat-select>
+          <mat-option [value]="0">
+            Todos los especialistas
+          </mat-option>
           <mat-option
             *ngFor="let especialista of especialistas"
             [value]="especialista.idEspecialista"
@@ -29,45 +28,98 @@
         </mat-select>
       </mat-form-field>
       <form class="example-form">
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" class="col-sm-12">
           <mat-label>Motivo</mat-label>
-          <textarea
+          <input
+            type="text"
             matInput
             placeholder="Reunión, hora al médico, congreso, licencia, etc"
-          ></textarea>
+          >
         </mat-form-field>
       </form>
       <div class="rangoDeFechas">
         <h3>Rango de fechas:</h3>
         <!-- -->
-        <mat-form-field appearance="outline">
-          <mat-label>Fecha inicio de busqueda</mat-label>
-          <input
-            matInput
-            [matDatepicker]="fechaInicio"
-            [formControl]="fechaDeInicio"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="fechaInicio"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #fechaInicio></mat-datepicker>
-        </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Fecha fin de busqueda</mat-label>
-          <input
-            matInput
-            [matDatepicker]="picker2"
-            [formControl]="fechaDeFin"
-          />
-          <mat-datepicker-toggle
-            matSuffix
-            [for]="picker2"
-          ></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
+        <div class="item-form d-flex">
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha inicio de busqueda</mat-label>
+            <input
+              matInput
+              [matDatepicker]="fechaInicio"
+              [formControl]="fechaDeInicio"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="fechaInicio"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicio></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hora inicio</mat-label>
+            <mat-select>
+              <mat-option
+                *ngFor="let hora of horas"
+                [value]="hora">
+                {{ hora }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Minutos inicio</mat-label>
+            <mat-select>
+              <mat-option
+                *ngFor="let minuto of minutos"
+                [value]="minuto">
+                {{ minuto }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="item-form d-flex">
+
+          <mat-form-field appearance="outline">
+            <mat-label>Fecha fin de busqueda</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker2"
+              [formControl]="fechaDeFin"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker2"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hora fin</mat-label>
+            <mat-select>
+              <mat-option
+                *ngFor="let hora of horas"
+                [value]="hora">
+                {{ hora }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Minutos fin</mat-label>
+            <mat-select>
+              <mat-option
+                *ngFor="let minuto of minutos"
+                [value]="minuto">
+                {{ minuto }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
+
+
     </mat-card-content>
   </mat-card>
 </div>

@@ -94,7 +94,8 @@
                 </mat-select>
               </mat-form-field>
               <mat-checkbox class="convenios-margin" name="isServicioADomicilio"
-                            [(ngModel)]="filtrosCalendario.isServicioADomicilio">
+                            [(ngModel)]="filtrosCalendario.isServicioADomicilio"
+                            (change)="changeTipoDomicilio($event.checked)">
                 Servicio a domicilio
               </mat-checkbox>
             </div>
